@@ -1,0 +1,26 @@
+name: build and deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code.
+        uses: actions/checkout@v4
+
+      - name: Use pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: install node modules
+        run: pnpm i --frozen-lockfile
+
+      - name: build application
+        run: pnpm build
+
+      - name: Deploy to # your deployment service
+        run: echo "Deploying to production"
