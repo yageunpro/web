@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <meta property="og:image" url="{{pngUrl}}" />
+    <!-- 
+      - invite.png
+      - confirm.png
+     -->
+
+    <meta property="og:title" content="{{title}}" />
+    <!-- 
+      - 예약 확인
+      - 예약 완료
+     -->
+
+    <meta property="og:description" content="{{description}}" />
+    <!-- 
+      - 예약이 완료되었습니다.
+      - 예약이 확인되었습니다.
+     -->
+  </head>
+  <body>
+    <script>
+      const id = "{{id}}";
+      window.location.href = `/appointment/${id}`;
+    </script>
+  </body>
+</html>
