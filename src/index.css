@@ -6,6 +6,11 @@
 
   color: var(--color-text-primary, #17171b);
 
+  --sat: env(safe-area-inset-top, 0);
+  --sar: env(safe-area-inset-right, 0);
+  --sab: env(safe-area-inset-bottom, 0);
+  --sal: env(safe-area-inset-left, 0);
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -14,13 +19,11 @@
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
+  margin: 0;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
