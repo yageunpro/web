@@ -2,10 +2,9 @@ import { useSyncExternalStore } from "react";
 
 const getCurrentHash = () => window.location.hash.replace(/^#/, "");
 
-const subscribe = () => {
+const subscribe = (callback: () => void) => {
   const onHashChange = () => {
-    const hash = getCurrentHash();
-    console.log("hash", hash);
+    callback();
   };
 
   window.addEventListener("hashchange", onHashChange);

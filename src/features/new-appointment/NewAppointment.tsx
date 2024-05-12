@@ -10,7 +10,7 @@ export function NewAppointment() {
 
   useEffect(() => {
     if (!currentHash) {
-      window.location.hash = "1";
+      window.location.replace("#1");
     }
   }, [currentHash]);
 

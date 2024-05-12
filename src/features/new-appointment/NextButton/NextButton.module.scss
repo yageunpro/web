@@ -1,0 +1,28 @@
+.wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: inline-flex;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+
+  .button {
+    display: flex;
+    padding: 16px 0px;
+    align-self: stretch;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 16px;
+    background: var(--color-bg-button-primary, #19196e);
+
+    color: var(--color-text-button-primary, #fff);
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
