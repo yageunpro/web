@@ -8,7 +8,7 @@ export function Home() {
       <Title>내 약속</Title>
 
       <div className={styles.wrapper}>
-        <Link to="/auth">새 약속 추가</Link>
+        <Link to="/appointments/new">새 약속 추가</Link>
 
         <section>
           <h3>😴 약속 정하는 중</h3>

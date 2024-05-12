@@ -14,7 +14,11 @@ const router = createBrowserRouter([
     element: <Auth />,
   },
   {
-    path: "/appointments/:id",
+    path: "/appointments/new",
+    element: <div>new Appointments</div>,
+  },
+  {
+    path: "/appointments/:appointmentId",
     element: <div>Appointments</div>,
   },
   {
