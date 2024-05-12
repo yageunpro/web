@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Home } from "../features/home";
 import { My } from "../features/my";
 import { Auth } from "../features/auth";
+import { NewAppointment } from "../features/new-appointment";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/appointments/new",
-    element: <div>new Appointments</div>,
+    element: <NewAppointment />,
   },
   {
     path: "/appointments/:appointmentId",
