@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import useHashRouter from "./useHashRouter";
-import { WhenWillMeet } from "./pages/WhenWillMeet";
-import { ExcludedSchedule } from "./pages/ExcludedSchedule";
-import { WhatEvent } from "./pages/WhatEvent";
-import { AddCategories } from "./pages/AddCategories";
+import {
+  WhenWillMeet,
+  ExcludedSchedule,
+  WhatEvent,
+  AddCategories,
+} from "./pages";
 
 export function NewAppointment() {
   const currentHash = useHashRouter();

@@ -1,5 +1,5 @@
 import Title from "../../../components/Title";
-import { NextButton } from "../NextButton";
+import { NextButton } from "../components/NextButton";
 
 export function WhatEvent() {
   return (
