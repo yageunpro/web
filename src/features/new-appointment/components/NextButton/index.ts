@@ -1,1 +1,1 @@
-export { NextButton } from "./NextButton";
+export { NextButton, NextButtonStyle } from "./NextButton";

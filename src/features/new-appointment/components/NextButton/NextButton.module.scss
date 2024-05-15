@@ -13,7 +13,7 @@
 
   .button {
     display: flex;
-    padding: 16px 0px;
+    height: 54px;
     align-self: stretch;
     justify-content: center;
     align-items: center;
@@ -24,5 +24,7 @@
     color: var(--color-text-button-primary, #fff);
     font-size: 20px;
     font-weight: 700;
+
+    cursor: pointer;
   }
 }

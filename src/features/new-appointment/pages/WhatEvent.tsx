@@ -1,11 +1,28 @@
 import Title from "../../../components/Title";
-import { NextButton } from "../components/NextButton";
+import { NextButton, NextButtonStyle } from "../components/NextButton";
 
 export function WhatEvent() {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <Title>어떤 약속인가요?</Title>
-      <NextButton to="#4">다음</NextButton>
+
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="">이름</label>
+        <input type="text" />
+
+        <label htmlFor="">설명</label>
+        <textarea name="" id="" cols={30} rows={10}></textarea>
+
+        <NextButton>
+          <button type="submit" className={NextButtonStyle}>
+            다음
+          </button>
+        </NextButton>
+      </form>
     </>
   );
 }
