@@ -1,2 +1,14 @@
-.wrapper {
+.information {
+  display: flex;
+  padding: 0px 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+
+  .description {
+    display: flex;
+    padding: 8px 0px;
+    align-items: flex-start;
+    align-self: stretch;
+  }
 }
