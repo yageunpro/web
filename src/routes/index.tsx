@@ -4,6 +4,7 @@ import { Home } from "../features/home";
 import { My } from "../features/my";
 import { Auth } from "../features/auth";
 import { NewAppointment } from "../features/new-appointment";
+import { Appointment } from "../features/appointment";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/appointments/:appointmentId",
-    element: <div>Appointments</div>,
+    element: <Appointment />,
   },
   {
     path: "/my",
