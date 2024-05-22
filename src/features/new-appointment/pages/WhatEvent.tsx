@@ -4,6 +4,7 @@ import { NextButton, NextButtonStyle } from "../components/NextButton";
 export function WhatEvent() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    window.location.hash = "4";
   };
 
   return (
