@@ -29,7 +29,12 @@ export function Appointment() {
 
         <div className={styles.field}>
           <Label htmlFor="">장소</Label>
-          <Input type="text" readOnly placeholder="장소를 추가하세요" />
+          <Input
+            type="text"
+            placeholder="장소를 추가하세요"
+            readOnly
+            onClick={() => {}}
+          />
           <div className="flex gap-2">
             {appointment.keywordList.map((keyword, index) => (
               <Badge key={index} variant="secondary">
@@ -43,15 +48,14 @@ export function Appointment() {
           <Label htmlFor="">마감일</Label>
           <Input
             className="w-full"
+            disabled
             type="date"
             value={format(new Date(appointment.endTime), "yyyy-MM-dd")}
           />
         </div>
 
         <div className={styles.field}>
-          <Label htmlFor="">
-            인원: <b>{appointment.participantList.length}명</b>
-          </Label>
+          <Label htmlFor="">인원: {appointment.participantList.length}명</Label>
 
           <div className="flex gap-2">
             {appointment.participantList.map((participant, index) => (
