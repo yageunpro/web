@@ -17,6 +17,9 @@ export function AddCategories() {
   return (
     <>
       <Title>카테고리를 추가하세요</Title>
+
+      <input type="text" />
+
       <MapDiv
         style={{
           width: "100%",
