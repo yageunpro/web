@@ -6,10 +6,11 @@ import { MapView } from "../../map";
 import styles from "./AddCategories.module.scss";
 import { InputTags } from "@/components/ui/input-tags";
 import { Button } from "@/components/ui/button";
+import { useDraftStore } from "@/components/store/useDraftStore";
 
 export function AddCategories() {
   const handleClick = () => {
-    alert("생성 API 내놔~!");
+    alert(JSON.stringify(useDraftStore.getState()));
   };
 
   const [categories, setCategories] = useState<string[]>([]);
