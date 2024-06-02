@@ -1,15 +1,9 @@
+import { Suspense } from "react";
 import Title from "../../../components/Title";
 import { NextButton, NextButtonStyle } from "../components/NextButton";
-import {
-  Container as MapDiv,
-  NaverMap,
-  Marker,
-  useNavermaps,
-} from "react-naver-maps";
+import { MapView } from "../map";
 
 export function AddCategories() {
-  const navermaps = useNavermaps();
-
   const handleClick = () => {
     alert("생성 API 내놔~!");
   };
@@ -20,21 +14,9 @@ export function AddCategories() {
 
       <input type="text" />
 
-      <MapDiv
-        style={{
-          width: "100%",
-          height: "400px",
-        }}
-      >
-        <NaverMap
-          defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
-          defaultZoom={15}
-        >
-          <Marker
-            defaultPosition={new navermaps.LatLng(37.3595704, 127.105399)}
-          />
-        </NaverMap>
-      </MapDiv>
+      <Suspense fallback={<div>Loading...</div>}>
+        <MapView />
+      </Suspense>
       <NextButton>
         <button onClick={handleClick} className={NextButtonStyle}>
           완료
