@@ -7,6 +7,10 @@ import { NewSchedule } from "../components/NewSchedule/NewSchedule";
 import { Separator } from "@/components/ui/separator";
 import { isSameDay, isSameMonth, isSameYear } from "date-fns";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { PlusIcon } from "lucide-react";
 
 function formatDateTime(start: string, end: string) {
   const startDate = new Date(start);
@@ -44,41 +48,58 @@ export function ExcludedSchedule() {
 
   return (
     <>
-      <Title>아래 시간들은 제외할게요</Title>
+      <Drawer>
+        <Title
+          RightComponent={
+            <DrawerTrigger
+              className={cn(
+                "",
+                buttonVariants({
+                  variant: "ghost",
+                })
+              )}
+            >
+              <PlusIcon />
+            </DrawerTrigger>
+          }
+        >
+          아래 시간들은 제외할게요
+        </Title>
 
-      <NewSchedule
-        onSubmitted={(schedule) => {
-          console.log(schedule);
-        }}
-      />
+        <NewSchedule
+          onSubmitted={(schedule) => {
+            console.log(schedule);
+          }}
+        />
 
-      <ScrollArea>
-        <ul className="flex flex-col mt-4 gap-2">
-          {data &&
-            data.data.map((schedule: Schedule, index: number) => {
-              const isFirst = index === 0;
+        <ScrollArea className="px-3 pb-24">
+          <ul className="flex flex-col mt-4 gap-2">
+            {data &&
+              data.data.map((schedule: Schedule, index: number) => {
+                const isFirst = index === 0;
 
-              return (
-                <Fragment key={schedule.id}>
-                  {!isFirst && <Separator className="ml-3" />}
-                  <li className="ml-3 flex flex-col">
-                    {schedule.title}
+                return (
+                  <Fragment key={schedule.id}>
+                    {!isFirst && <Separator className="ml-3" />}
+                    <li className="ml-3 flex flex-col">
+                      <h3 className="text-lg font-bold">{schedule.title}</h3>
 
-                    <p>
-                      {formatDateTime(schedule.startTime, schedule.endTime)}
-                    </p>
-                  </li>
-                </Fragment>
-              );
-            })}
-        </ul>
-      </ScrollArea>
+                      <p>
+                        {formatDateTime(schedule.startTime, schedule.endTime)}
+                      </p>
+                    </li>
+                  </Fragment>
+                );
+              })}
+          </ul>
+        </ScrollArea>
 
-      <NextButton>
-        <a className={NextButtonStyle} href="#3">
-          다음
-        </a>
-      </NextButton>
+        <NextButton>
+          <a className={NextButtonStyle} href="#3">
+            다음
+          </a>
+        </NextButton>
+      </Drawer>
     </>
   );
 }
