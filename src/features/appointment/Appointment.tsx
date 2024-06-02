@@ -1,5 +1,8 @@
+import { Label } from "@/components/ui/label";
 import Title from "../../components/Title";
 import styles from "./Appointment.module.scss";
+import { Input } from "@/components/ui/input";
+import { format } from "date-fns";
 
 const appointment = {
   id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -22,16 +25,25 @@ export function Appointment() {
       <section className={styles.information}>
         <p className={styles.description}>{appointment.description}</p>
 
-        <label htmlFor="">장소</label>
-        <input type="text" readOnly />
+        <div className={styles.field}>
+          <Label htmlFor="">장소</Label>
+          <Input type="text" readOnly placeholder="장소를 추가하세요" />
+        </div>
 
-        <label htmlFor="">카테고리</label>
-        <input type="text" />
+        <div className={styles.field}>
+          <Label htmlFor="">카테고리</Label>
+          <Input type="text" placeholder="카테고리를 추가하세요" />
+        </div>
 
-        <label htmlFor="">마감일</label>
-        <input type="date" />
+        <div className={styles.field}>
+          <Label htmlFor="">마감일</Label>
+          <Input
+            type="date"
+            value={format(new Date(appointment.endTime), "yyyy-MM-dd")}
+          />
+        </div>
 
-        <label htmlFor="">인원</label>
+        <Label htmlFor="">인원</Label>
         <div>태그</div>
         <div>태그</div>
         <div>태그</div>
