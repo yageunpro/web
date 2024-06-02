@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -23,13 +23,24 @@ export function NewSchedule({
   );
   const [endDate, setEndDate] = useState<Date>(addHours(startDate, 1));
 
-  console.log(startDate);
-
   const handleStartDateTimeChange = (date: Date) => {
     const duration = endDate.getTime() - startDate.getTime();
     setStartDate(date);
     setEndDate(new Date(date.getTime() + duration));
   };
+
+  const reset = () => {
+    setTitle("");
+    const newStartDate = roundToNearestMinutes(new Date(), {
+      roundingMethod: "ceil",
+      nearestTo: 30,
+    });
+    setStartDate(newStartDate);
+    setEndDate(addHours(newStartDate, 1));
+  };
+
+  const rangeError = startDate >= endDate;
+  const disabled = rangeError || !title;
 
   return (
     <Drawer>
@@ -129,18 +140,19 @@ export function NewSchedule({
         </div>
 
         <DrawerFooter>
-          <DrawerClose>
-            <Button
-              onClick={() => {
-                onSubmitted?.({
-                  title,
-                  start: startDate,
-                  end: endDate,
-                });
-              }}
-            >
-              일정 추가
-            </Button>
+          <DrawerClose
+            className={buttonVariants()}
+            onClick={() => {
+              reset();
+              onSubmitted?.({
+                title,
+                start: startDate,
+                end: endDate,
+              });
+            }}
+            disabled={disabled}
+          >
+            일정 추가
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

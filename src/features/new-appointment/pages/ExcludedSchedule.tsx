@@ -16,8 +16,6 @@ export function ExcludedSchedule() {
     end: nextWeek.toISOString(),
   });
 
-  console.log(data);
-
   return (
     <>
       <Title>아래 시간들은 제외할게요</Title>
