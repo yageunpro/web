@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -44,8 +44,8 @@ export function NewSchedule({
 
   return (
     <Drawer>
-      <DrawerTrigger>
-        <Button>일정 직접 추가하기</Button>
+      <DrawerTrigger className={buttonVariants()}>
+        일정 직접 추가하기
       </DrawerTrigger>
 
       <DrawerContent>
