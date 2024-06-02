@@ -6,5 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
+    proxy: {
+      "/api": {
+        target: "https://yageun.pro",
+        changeOrigin: true,
+      },
+    },
   },
 });
