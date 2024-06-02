@@ -17,19 +17,19 @@ export function AddCategories() {
 
       <div className={styles.wrapper}>
         <div className={styles.inputWrapper}>
-          <Input type="text" />
+          <Input type="text" placeholder="카테고리를 입력해주세요." />
         </div>
 
         <Suspense fallback={<div>Loading...</div>}>
           <MapView />
         </Suspense>
-
-        <NextButton>
-          <button onClick={handleClick} className={NextButtonStyle}>
-            완료
-          </button>
-        </NextButton>
       </div>
+
+      <NextButton>
+        <button onClick={handleClick} className={NextButtonStyle}>
+          완료
+        </button>
+      </NextButton>
     </>
   );
 }
