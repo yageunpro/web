@@ -4,6 +4,7 @@ import Title from "../../components/Title";
 import styles from "./Home.module.scss";
 import { cn } from "@/lib/utils";
 import { AppointmentListItem } from "./AppointmentListItem";
+import { NextButton } from "../new-appointment/components/NextButton";
 
 export function Home() {
   return (
@@ -11,19 +12,6 @@ export function Home() {
       <Title>내 약속</Title>
 
       <div className={styles.wrapper}>
-        <Link
-          className={cn(
-            buttonVariants({
-              variant: "outline",
-              size: "lg",
-            }),
-            "self-stretch"
-          )}
-          to="/appointments/new"
-        >
-          새 약속 추가
-        </Link>
-
         <section>
           <h3>😴 약속 정하는 중</h3>
           <ul>
@@ -59,6 +47,20 @@ export function Home() {
           </ul>
         </section>
       </div>
+
+      <NextButton>
+        <Link
+          className={cn(
+            buttonVariants({
+              size: "lg",
+            }),
+            "self-stretch"
+          )}
+          to="/appointments/new"
+        >
+          새 약속 추가
+        </Link>
+      </NextButton>
     </>
   );
 }
