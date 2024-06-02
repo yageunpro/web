@@ -1,7 +1,11 @@
-export enum AppointmentStatus {
-  DRAFT = "DRAFT",
-  CONFIRM = "CONFIRM",
-  DONE = "DONE",
-  CANCEL = "CANCEL",
-  DELETE = "DELETE",
-}
+import { z } from "zod";
+
+export const AppointmentStatus = z.enum([
+  "DRAFT",
+  "CONFIRM",
+  "DONE",
+  "CANCEL",
+  "DELETE",
+]);
+
+export type AppointmentStatus = z.infer<typeof AppointmentStatus>;

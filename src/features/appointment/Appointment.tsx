@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { PersonStandingIcon } from "lucide-react";
+import { AppointmentModel } from "@/types/AppointmentModel";
 
-const appointment = {
+const appointment: AppointmentModel = {
   id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   title: "한도협의 약속",
   description: "한도협 휴직 기념 홈파티 그런데 이제 술과 돼지 바베큐를 곁들인",
