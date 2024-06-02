@@ -22,7 +22,11 @@ export function ExcludedSchedule() {
     <>
       <Title>아래 시간들은 제외할게요</Title>
 
-      <NewSchedule />
+      <NewSchedule
+        onSubmitted={(schedule) => {
+          console.log(schedule);
+        }}
+      />
 
       <ul>
         {data &&

@@ -12,7 +12,12 @@ import { Input } from "@/components/ui/input";
 import styles from "./NewSchedule.module.scss";
 import { addHours, format, roundToNearestMinutes } from "date-fns";
 
-export function NewSchedule() {
+export function NewSchedule({
+  onSubmitted,
+}: {
+  onSubmitted?: (schedule: { title: string; start: Date; end: Date }) => void;
+}) {
+  const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState<Date>(
     roundToNearestMinutes(new Date(), { roundingMethod: "ceil", nearestTo: 30 })
   );
@@ -33,7 +38,11 @@ export function NewSchedule() {
       </DrawerTrigger>
 
       <DrawerContent>
-        <Input placeholder="어떤 일정인가요?" />
+        <Input
+          placeholder="어떤 일정인가요?"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
         <div className={styles.dateTimeWrapper}>
           <label id="rangeStart">시작</label>
@@ -121,7 +130,17 @@ export function NewSchedule() {
 
         <DrawerFooter>
           <DrawerClose>
-            <Button onClick={() => {}}>일정 추가</Button>
+            <Button
+              onClick={() => {
+                onSubmitted?.({
+                  title,
+                  start: startDate,
+                  end: endDate,
+                });
+              }}
+            >
+              일정 추가
+            </Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
