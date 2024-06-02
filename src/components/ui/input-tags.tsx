@@ -4,7 +4,7 @@ import { Input, InputProps } from "@/components/ui/input";
 import { XIcon } from "lucide-react";
 import { Dispatch, SetStateAction, forwardRef, useState } from "react";
 
-type InputTagsProps = InputProps & {
+type InputTagsProps = Omit<InputProps, "onChange"> & {
   value: string[];
   onChange: Dispatch<SetStateAction<string[]>>;
 };
@@ -49,9 +49,9 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
             Add
           </Button>
         </div>
-        <div className="border rounded-md min-h-[2.5rem] overflow-y-auto p-2 flex gap-2 flex-wrap items-center">
+        <div className="rounded-md min-h-[2.5rem] overflow-y-auto py-3 px-1 flex gap-2 flex-wrap items-center">
           {value.map((item, idx) => (
-            <Badge key={idx} variant="secondary">
+            <Badge key={idx} variant="default">
               {item}
               <button
                 type="button"
