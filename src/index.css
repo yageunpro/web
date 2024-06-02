@@ -20,6 +20,11 @@
 body {
   margin: 0;
   min-width: 320px;
+  height: 100%;
+}
+
+html {
+  height: 100%;
 }
 
 h1,
@@ -45,4 +50,8 @@ a {
 
 p {
   margin: 0;
+}
+
+#root {
+  height: 100%;
 }
