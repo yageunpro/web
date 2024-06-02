@@ -2,11 +2,16 @@ import { Button } from "@/components/ui/button";
 import Title from "../../../../components/Title";
 
 import styles from "./WhenWillMeet.module.scss";
+import { useDraftStore } from "@/components/store/useDraftStore";
+import { useRef } from "react";
+import { addMonths, addWeeks } from "date-fns";
 
 export function WhenWillMeet() {
   const next = () => {
     window.location.hash = "2";
   };
+
+  const currentDate = useRef(new Date()).current;
 
   return (
     <>
@@ -17,6 +22,9 @@ export function WhenWillMeet() {
           variant="secondary"
           size="lg"
           onClick={() => {
+            useDraftStore.setState({
+              deadline: addWeeks(currentDate, 1),
+            });
             next();
           }}
         >
@@ -26,6 +34,9 @@ export function WhenWillMeet() {
           variant="secondary"
           size="lg"
           onClick={() => {
+            useDraftStore.setState({
+              deadline: addWeeks(currentDate, 2),
+            });
             next();
           }}
         >
@@ -35,6 +46,9 @@ export function WhenWillMeet() {
           variant="secondary"
           size="lg"
           onClick={() => {
+            useDraftStore.setState({
+              deadline: addMonths(currentDate, 1),
+            });
             next();
           }}
         >
