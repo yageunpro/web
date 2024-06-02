@@ -6,12 +6,13 @@ import {
   WhatEvent,
   AddCategories,
 } from "./pages";
+import { useDraftStore } from "@/components/store/useDraftStore";
 
 export function NewAppointment() {
   const currentHash = useHashRouter();
 
   useEffect(() => {
-    if (!currentHash) {
+    if (!currentHash || !useDraftStore.getState().deadline) {
       window.location.replace("#1");
     }
   }, [currentHash]);
