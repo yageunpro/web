@@ -2,7 +2,6 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   DrawerClose,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
@@ -43,13 +42,12 @@ export function NewSchedule({
   const disabled = rangeError || !title;
 
   return (
-    <DrawerContent className="px-4">
+    <DrawerContent className="px-4 pb-4 gap-4">
       <DrawerHeader>
         <DrawerTitle>일정 직접 추가</DrawerTitle>
       </DrawerHeader>
 
       <Input
-        className="mb-6"
         placeholder="어떤 일정인가요?"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
@@ -62,6 +60,7 @@ export function NewSchedule({
           <Input
             type="date"
             aria-labelledby="rangeStart"
+            className="w-[128px] shrink-0"
             value={format(startDate, "yyyy-MM-dd")}
             onChange={(e) => {
               const date = new Date(e.target.value);
@@ -79,6 +78,7 @@ export function NewSchedule({
           <Input
             type="time"
             aria-labelledby="rangeStart"
+            className="w-[96px] shrink-0"
             value={format(startDate, "HH:mm")}
             onChange={(e) => {
               const time = e.target.value.split(":");
@@ -103,6 +103,7 @@ export function NewSchedule({
           <Input
             type="date"
             aria-labelledby="rangeEnd"
+            className="w-[128px] shrink-0"
             value={format(endDate, "yyyy-MM-dd")}
             onChange={(e) => {
               const date = new Date(e.target.value);
@@ -121,6 +122,7 @@ export function NewSchedule({
           <Input
             type="time"
             aria-labelledby="rangeEnd"
+            className="w-[96px] shrink-0"
             value={format(endDate, "HH:mm")}
             onChange={(e) => {
               const time = e.target.value.split(":");
@@ -139,22 +141,22 @@ export function NewSchedule({
         </div>
       </div>
 
-      <DrawerFooter>
-        <DrawerClose
-          className={buttonVariants()}
-          onClick={() => {
-            reset();
-            onSubmitted?.({
-              title,
-              start: startDate,
-              end: endDate,
-            });
-          }}
-          disabled={disabled}
-        >
-          일정 추가
-        </DrawerClose>
-      </DrawerFooter>
+      <DrawerClose
+        className={buttonVariants({
+          size: "lg",
+        })}
+        onClick={() => {
+          reset();
+          onSubmitted?.({
+            title,
+            start: startDate,
+            end: endDate,
+          });
+        }}
+        disabled={disabled}
+      >
+        일정 추가
+      </DrawerClose>
     </DrawerContent>
   );
 }

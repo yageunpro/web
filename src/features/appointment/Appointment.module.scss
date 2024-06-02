@@ -4,14 +4,18 @@
   flex-direction: column;
   align-items: flex-start;
   align-self: stretch;
-  gap: 16px;
+  gap: 24px;
 
   .field {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     align-items: flex-start;
     align-self: stretch;
+
+    label {
+      margin-left: 4px;
+    }
   }
 
   .description {

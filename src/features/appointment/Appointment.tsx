@@ -3,6 +3,8 @@ import Title from "../../components/Title";
 import styles from "./Appointment.module.scss";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { PersonStandingIcon } from "lucide-react";
 
 const appointment = {
   id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -28,25 +30,38 @@ export function Appointment() {
         <div className={styles.field}>
           <Label htmlFor="">장소</Label>
           <Input type="text" readOnly placeholder="장소를 추가하세요" />
-        </div>
-
-        <div className={styles.field}>
-          <Label htmlFor="">카테고리</Label>
-          <Input type="text" placeholder="카테고리를 추가하세요" />
+          <div className="flex gap-2">
+            {appointment.keywordList.map((keyword, index) => (
+              <Badge key={index} variant="secondary">
+                {keyword}
+              </Badge>
+            ))}
+          </div>
         </div>
 
         <div className={styles.field}>
           <Label htmlFor="">마감일</Label>
           <Input
+            className="w-full"
             type="date"
             value={format(new Date(appointment.endTime), "yyyy-MM-dd")}
           />
         </div>
 
-        <Label htmlFor="">인원</Label>
-        <div>태그</div>
-        <div>태그</div>
-        <div>태그</div>
+        <div className={styles.field}>
+          <Label htmlFor="">
+            인원: <b>{appointment.participantList.length}명</b>
+          </Label>
+
+          <div className="flex gap-2">
+            {appointment.participantList.map((participant, index) => (
+              <Badge key={index} variant="outline" className="pr-4">
+                <PersonStandingIcon size={16} />
+                {participant}
+              </Badge>
+            ))}
+          </div>
+        </div>
       </section>
     </>
   );
