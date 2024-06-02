@@ -1,6 +1,9 @@
-import Link from "../../components/Link";
+import { buttonVariants } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import Title from "../../components/Title";
 import styles from "./Home.module.scss";
+import { cn } from "@/lib/utils";
+import { AppointmentListItem } from "./AppointmentListItem";
 
 export function Home() {
   return (
@@ -8,20 +11,51 @@ export function Home() {
       <Title>내 약속</Title>
 
       <div className={styles.wrapper}>
-        <Link to="/appointments/new">새 약속 추가</Link>
+        <Link
+          className={cn(
+            buttonVariants({
+              variant: "outline",
+              size: "lg",
+            }),
+            "self-stretch"
+          )}
+          to="/appointments/new"
+        >
+          새 약속 추가
+        </Link>
 
         <section>
           <h3>😴 약속 정하는 중</h3>
           <ul>
-            <Link to="/appointments/1">약속 1</Link>
-            <Link to="/appointments/2">약속 2</Link>
+            <AppointmentListItem
+              id="12"
+              title="약속 1"
+              participantList={[]}
+              location={{}}
+            />
+            <AppointmentListItem
+              id="13"
+              title="약속 2"
+              participantList={[]}
+              location={{}}
+            />
           </ul>
         </section>
         <section>
           <h3>🕖 다가오는 약속</h3>
           <ul>
-            <Link to="/appointments/3">약속 3</Link>
-            <Link to="/appointments/4">약속 4</Link>
+            <AppointmentListItem
+              id="14"
+              title="약속 3"
+              participantList={["한도협", "홍길동"]}
+              location={{}}
+            />
+            <AppointmentListItem
+              id="15"
+              title="약속 4"
+              participantList={["한도협", "홍길동"]}
+              location={{}}
+            />
           </ul>
         </section>
       </div>
