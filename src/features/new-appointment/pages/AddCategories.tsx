@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Title from "../../../components/Title";
 import { NextButton, NextButtonStyle } from "../components/NextButton";
 import { MapView } from "../map";
+import { Input } from "../../../components/Input";
 
 export function AddCategories() {
   const handleClick = () => {
@@ -12,7 +13,7 @@ export function AddCategories() {
     <>
       <Title>카테고리를 추가하세요</Title>
 
-      <input type="text" />
+      <Input type="text" />
 
       <Suspense fallback={<div>Loading...</div>}>
         <MapView />
