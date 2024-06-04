@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Title from "../../../components/Title";
 import {
   NextButton,
@@ -13,53 +13,74 @@ import { useDraftStore } from "@/components/store/useDraftStore";
 import { useQuery } from "@tanstack/react-query";
 import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useNavermaps } from "react-naver-maps";
 
 const BottomButtonSize = 72;
 
-function useLocationQuery(categories: string[]) {
+function useLocationQuery(categoryList: string[]) {
   return useQuery({
-    queryKey: ["location", categories],
+    queryKey: ["location", categoryList],
     queryFn: async () => {
       const response = await fetch(
-        `/api/location?${categories
+        `/api/location?${categoryList
           .map((category) => `q=${category}`)
           .join("&")}`
       );
       const data = await response.json();
       return data;
     },
-    enabled: categories.length > 0,
+    enabled: categoryList.length > 0,
   });
 }
 
 export function AddCategories() {
+  const navermaps = useNavermaps();
+  const [map, setMap] = useState(null);
+
   const handleClick = () => {
     alert(JSON.stringify(useDraftStore.getState()));
   };
 
-  const [categories, setCategories] = useState<string[]>(["숭실대", "햄버거"]);
-  const [selectedLocation, setSelectedLocation] = useState<string | undefined>(
-    undefined
-  );
+  const categoryList = useDraftStore((state) => state.categoryList);
+  const locationId = useDraftStore((state) => state.location_id);
 
-  const { data } = useLocationQuery(categories);
+  const { data } = useLocationQuery(categoryList);
 
-  const location = data?.find((location) => location.id === selectedLocation);
+  const location = data?.find((location) => location.id === locationId);
 
-  const handleClickLocation = (locationId: string) => {
-    if (selectedLocation === locationId) {
-      setSelectedLocation(undefined);
-    } else {
-      setSelectedLocation(locationId);
+  useEffect(() => {
+    console.log("@@@", location);
+    if (!map) return;
+    if (!data) return;
+    if (!data.length) return;
+
+    let target = location;
+    if (!target) {
+      target = data[0];
     }
-  };
 
-  console.log(location);
+    const latLng = new navermaps.LatLng(
+      target.position[1] / 10000000,
+      target.position[0] / 10000000
+    );
+
+    console.log(latLng);
+    console.log(map);
+    map.setCenter(latLng);
+  }, [data, location, map, navermaps.LatLng]);
 
   console.log(data);
 
-  const handleChangeCategories = (categories: string[]) => {
-    setCategories(categories);
+  const handleChangeCategories = (categoryList: string[]) => {
+    useDraftStore.setState({ categoryList: categoryList });
+  };
+
+  const handleClickLocation = ($locationId: string) => {
+    if (locationId === $locationId) {
+      useDraftStore.setState({ location_id: "" });
+    } else {
+      useDraftStore.setState({ location_id: $locationId });
+    }
   };
 
   return (
@@ -67,29 +88,27 @@ export function AddCategories() {
       <Title>약속장소를 추가하세요</Title>
 
       <div className="h-full relative">
-        <Suspense fallback={null}>
-          <MapView />
-        </Suspense>
+        <MapView navermaps={navermaps} ref={setMap} locations={data} />
 
         <div className={styles.inputWrapper}>
           <InputTags
             placeholder="카테고리를 입력해주세요."
-            value={categories}
+            value={categoryList}
             onChange={handleChangeCategories}
           />
         </div>
 
         <div className="w-full absolute" style={{ bottom: BottomButtonSize }}>
           {data && (
-            <ButtonGroup value={selectedLocation}>
+            <ButtonGroup value={locationId}>
               <ScrollArea className="w-full whitespace-nowrap rounded-md">
                 <div className="flex w-max space-x-4 p-4">
                   {data.map((location) => (
                     <ButtonGroupItem
                       value={location.id}
                       key={location.id}
-                      checked={selectedLocation === location.id}
-                      className="border bg-background data-[state=checked]:outline-slate-950 data-[state=checked]:outline-2 text-center h-full w-[156px] rounded-md focus:outline-none 2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 shrink-0 overflow-hidden px-2 h-[82px] text-left"
+                      checked={locationId === location.id}
+                      className="border bg-background data-[state=checked]:border-slate-950 w-[156px] rounded-md focus:outline-none 2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 shrink-0 overflow-hidden px-2 h-[82px] text-left"
                       onClick={() => handleClickLocation(location.id)}
                     >
                       <div className="flex flex-col gap-[2px] w-full overflow-hidden ">
