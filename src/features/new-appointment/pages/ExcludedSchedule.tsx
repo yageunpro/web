@@ -12,6 +12,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 function formatDateTime(start: string, end: string) {
   const startDate = new Date(start);
@@ -42,9 +44,22 @@ export function ExcludedSchedule() {
     new Date(currentDate.getTime() + 1000 * 60 * 60 * 24 * 7)
   ).current;
 
-  const { data } = useSchedule({
+  const { data, refetch } = useSchedule({
     start: currentDate.toISOString(),
     end: nextWeek.toISOString(),
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: async (schedule: { title: string; start: Date; end: Date }) => {
+      return axios.post("/api/calendar/schedule", {
+        title: schedule.title,
+        startTime: schedule.start.toISOString(),
+        endTime: schedule.end.toISOString(),
+      });
+    },
+    onSuccess() {
+      refetch();
+    },
   });
 
   return (
@@ -69,7 +84,7 @@ export function ExcludedSchedule() {
 
         <NewSchedule
           onSubmitted={(schedule) => {
-            console.log(schedule);
+            mutate(schedule);
           }}
         />
 

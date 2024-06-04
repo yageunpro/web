@@ -43,7 +43,7 @@ export const draftStore = {
     return {
       title,
       description,
-      location_id,
+      location_id: location_id || undefined,
       categoryList,
       deadline,
     };
