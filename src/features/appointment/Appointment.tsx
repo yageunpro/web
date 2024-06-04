@@ -4,7 +4,7 @@ import styles from "./Appointment.module.scss";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
-import { MoreVerticalIcon, PersonStandingIcon } from "lucide-react";
+import { CopyIcon, MoreVerticalIcon, PersonStandingIcon } from "lucide-react";
 import { AppointmentModel } from "@/types/AppointmentModel";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
@@ -14,11 +14,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { stripHtml } from "@/lib/utils";
 import request from "@/api/request";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export function Appointment() {
   const navigate = useNavigate();
@@ -70,6 +78,8 @@ export function Appointment() {
       replace: true,
     });
   };
+
+  const url = `${window.location.origin}/appointments/${appointmentId}`;
 
   return (
     <>
@@ -176,7 +186,32 @@ export function Appointment() {
           </div>
         </section>
 
-        <DrawerContent>hi</DrawerContent>
+        <DrawerContent className="px-3 pb-24 gap-4">
+          {" "}
+          <DrawerHeader>
+            <DrawerTitle>약속 생성 완료!</DrawerTitle>
+          </DrawerHeader>
+          <CopyToClipboard
+            text={url}
+            onCopy={() => {
+              toast("클립보드에 복사됨", {
+                duration: 2000,
+              });
+            }}
+          >
+            <Button
+              className="relative w-full overflow-hidden text-ellipsis justify-normal"
+              variant="secondary"
+            >
+              {url}
+
+              <div className="absolute right-0 flex items-center justify-center px-3 bg-secondary ">
+                <CopyIcon size={20} />
+              </div>
+            </Button>
+          </CopyToClipboard>
+          {/* <Button>카카오톡으로 공유하기</Button> */}
+        </DrawerContent>
       </Drawer>
     </>
   );

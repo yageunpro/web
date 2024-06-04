@@ -12,6 +12,7 @@ import {
 } from "@/features/new-appointment/pages";
 import { EditCategories } from "@/features/appointment/EditCategories";
 import { EditAppointment } from "./features/appointment/EditAppointment";
+import { Toaster } from "sonner";
 
 export function App() {
   return (
@@ -43,6 +44,8 @@ export function App() {
 
         <Route path="/my" element={<My />} />
       </Routes>
+
+      <Toaster />
     </>
   );
 }
