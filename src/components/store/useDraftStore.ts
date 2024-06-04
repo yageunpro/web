@@ -34,3 +34,18 @@ export const useDraftStore = create<DraftStore>()(
     }
   )
 );
+
+export const draftStore = {
+  body: () => {
+    const { title, description, location_id, categoryList, deadline } =
+      useDraftStore.getState();
+
+    return {
+      title,
+      description,
+      location_id,
+      categoryList,
+      deadline,
+    };
+  },
+};
