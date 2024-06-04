@@ -6,11 +6,16 @@ export const AppointmentModel = z.object({
   title: z.string(),
   description: z.string().optional().nullable(),
   location: z.object({}), // TODO: Define location type
-  keywordList: z.array(z.string()),
-  participantList: z.array(z.string()),
+  categoryList: z.array(z.string()),
+  participantList: z.array(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+    })
+  ),
   status: AppointmentStatus,
   startTime: z.string().datetime().optional().nullable(),
-  endTime: z.string().datetime(),
+  deadline: z.string().datetime(),
   confirmTime: z.string().datetime().optional().nullable(),
 });
 
