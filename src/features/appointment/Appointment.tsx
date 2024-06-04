@@ -18,6 +18,7 @@ import {
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { stripHtml } from "@/lib/utils";
 
 export function Appointment() {
   const navigate = useNavigate();
@@ -121,6 +122,7 @@ export function Appointment() {
               type="text"
               placeholder="장소를 추가하세요"
               readOnly
+              value={stripHtml(appointment.location?.title ?? "")}
               onClick={() => {
                 navigate(`/appointments/${appointmentId}/edit/location`);
               }}

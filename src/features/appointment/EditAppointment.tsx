@@ -10,6 +10,7 @@ import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { stripHtml } from "@/lib/utils";
 
 export function EditAppointment() {
   const navigate = useNavigate();
@@ -85,6 +86,7 @@ export function EditAppointment() {
             id="location"
             type="text"
             placeholder="장소를 추가하세요"
+            value={stripHtml(appointment.location?.title ?? "")}
             onClick={() => {
               navigate(`/appointments/${appointmentId}/edit/location`);
             }}
