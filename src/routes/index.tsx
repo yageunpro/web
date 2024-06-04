@@ -1,10 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { Home } from "../features/home";
-import { My } from "../features/my";
-import { Auth } from "../features/auth";
-import { NewAppointment } from "../features/new-appointment";
-import { Appointment } from "../features/appointment";
+import { Home } from "@/features/home";
+import { My } from "@/features/my";
+import { Auth } from "@/features/auth";
+import { Appointment } from "@/features/appointment";
+import {
+  ExcludedSchedule,
+  WhatEvent,
+  WhenWillMeet,
+} from "@/features/new-appointment/pages";
+import { AddCategories } from "@/features/categoryMap/AddCategories/AddCategories";
 
 const router = createBrowserRouter([
   {
@@ -16,8 +21,24 @@ const router = createBrowserRouter([
     element: <Auth />,
   },
   {
-    path: "/appointments/new",
-    element: <NewAppointment />,
+    path: "/appointments/new/1",
+    element: <WhenWillMeet />,
+  },
+  {
+    path: "/appointments/new/2",
+    element: <ExcludedSchedule />,
+  },
+  {
+    path: "/appointments/new/3",
+    element: <WhatEvent />,
+  },
+  {
+    path: "/appointments/new/4",
+    element: <AddCategories />,
+  },
+  {
+    path: "/appointments/:appointmentId/editCategory",
+    element: <AddCategories />,
   },
   {
     path: "/appointments/:appointmentId",

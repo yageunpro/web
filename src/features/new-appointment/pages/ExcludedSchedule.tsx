@@ -11,6 +11,7 @@ import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PlusIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function formatDateTime(start: string, end: string) {
   const startDate = new Date(start);
@@ -95,9 +96,9 @@ export function ExcludedSchedule() {
         </ScrollArea>
 
         <NextButton>
-          <a className={NextButtonStyle} href="#3">
+          <Link className={NextButtonStyle} to="/appointments/new/3">
             다음
-          </a>
+          </Link>
         </NextButton>
       </Drawer>
     </>

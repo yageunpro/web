@@ -5,10 +5,13 @@ import styles from "./WhenWillMeet.module.scss";
 import { useDraftStore } from "@/components/store/useDraftStore";
 import { useRef } from "react";
 import { addMonths, addWeeks } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 export function WhenWillMeet() {
+  const navigate = useNavigate();
+
   const next = () => {
-    window.location.hash = "2";
+    navigate("/appointments/new/2");
   };
 
   const currentDate = useRef(new Date()).current;

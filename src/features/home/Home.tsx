@@ -56,7 +56,7 @@ export function Home() {
             }),
             "self-stretch"
           )}
-          to="/appointments/new"
+          to="/appointments/new/1"
         >
           새 약속 추가
         </Link>

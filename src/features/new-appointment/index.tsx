@@ -1,1 +1,0 @@
-export { NewAppointment } from "./NewAppointment";

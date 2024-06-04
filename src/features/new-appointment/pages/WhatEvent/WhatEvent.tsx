@@ -7,10 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useDraftStore } from "@/components/store/useDraftStore";
+import { useNavigate } from "react-router-dom";
 
 export function WhatEvent() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,7 +22,7 @@ export function WhatEvent() {
 
     useDraftStore.setState({ title, description });
 
-    window.location.hash = "4";
+    navigate("/appointments/new/4");
   };
 
   return (

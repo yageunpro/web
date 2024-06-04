@@ -1,7 +1,10 @@
 import { Suspense, useState } from "react";
-import Title from "../../../../components/Title";
-import { NextButton, NextButtonStyle } from "../../components/NextButton";
-import { MapView } from "../../map";
+import Title from "../../../components/Title";
+import {
+  NextButton,
+  NextButtonStyle,
+} from "../../new-appointment/components/NextButton";
+import { MapView } from "../../new-appointment/map";
 
 import styles from "./AddCategories.module.scss";
 import { InputTags } from "@/components/ui/input-tags";
