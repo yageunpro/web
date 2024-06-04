@@ -1,10 +1,10 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider } from "react-router-dom";
-import router from "./routes/index.tsx";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import { NavermapsProvider } from "react-naver-maps";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { App } from "./App.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,7 +19,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Suspense fallback={null}>
       <QueryClientProvider client={queryClient}>
         <NavermapsProvider ncpClientId="fyrc4xrt6q">
-          <RouterProvider router={router} />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </NavermapsProvider>
       </QueryClientProvider>
     </Suspense>
