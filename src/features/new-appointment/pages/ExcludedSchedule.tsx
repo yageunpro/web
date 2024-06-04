@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import request from "@/api/request";
 
 function formatDateTime(start: string, end: string) {
   const startDate = new Date(start);
@@ -51,7 +51,7 @@ export function ExcludedSchedule() {
 
   const { mutate } = useMutation({
     mutationFn: async (schedule: { title: string; start: Date; end: Date }) => {
-      return axios.post("/api/calendar/schedule", {
+      return request.post("/calendar/schedule", {
         title: schedule.title,
         startTime: schedule.start.toISOString(),
         endTime: schedule.end.toISOString(),

@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { MoreVerticalIcon, PersonStandingIcon } from "lucide-react";
 import { AppointmentModel } from "@/types/AppointmentModel";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import axios from "axios";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import {
   DropdownMenu,
@@ -19,12 +18,19 @@ import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { stripHtml } from "@/lib/utils";
+import request from "@/api/request";
 
 export function Appointment() {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
   const isNew = searchParams.get("new"); // test
+
+  if (isNew) {
+    navigate(".", {
+      replace: true,
+    });
+  }
 
   const [openDrawer, setOpenDrawer] = useState(isNew ? true : false);
 
@@ -34,8 +40,8 @@ export function Appointment() {
   const { data: appointment } = useSuspenseQuery({
     queryKey: ["appointment", appointmentId],
     queryFn: async () => {
-      const response = await axios.get<AppointmentModel>(
-        `/api/appointment/${appointmentId}`
+      const response = await request.get<AppointmentModel>(
+        `/appointment/${appointmentId}`
       );
       return response.data;
     },
@@ -43,20 +49,26 @@ export function Appointment() {
 
   const { mutate: deleteAppointment } = useMutation({
     mutationFn: async () => {
-      await axios.delete(`/api/appointment/${appointmentId}`);
+      await request.delete(`/appointment/${appointmentId}`);
     },
     onSuccess: () => {
-      navigate("/");
+      navigate("/", {
+        replace: true,
+      });
     },
   });
 
   const edit = (id?: string) => () => {
     if (id) {
-      navigate(`./edit?input=${id}`);
+      navigate(`./edit?input=${id}`, {
+        replace: true,
+      });
       return;
     }
 
-    navigate(`./edit`);
+    navigate(`./edit`, {
+      replace: true,
+    });
   };
 
   return (
@@ -124,7 +136,9 @@ export function Appointment() {
               readOnly
               value={stripHtml(appointment.location?.title ?? "")}
               onClick={() => {
-                navigate(`/appointments/${appointmentId}/edit/location`);
+                navigate(`/appointments/${appointmentId}/edit/location`, {
+                  replace: true,
+                });
               }}
             />
             <div className="flex gap-2">

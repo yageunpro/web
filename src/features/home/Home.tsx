@@ -7,7 +7,7 @@ import { AppointmentListItem } from "./AppointmentListItem";
 import { NextButton } from "../new-appointment/components/NextButton";
 import { useQuery } from "@tanstack/react-query";
 import { AppointmentStatus } from "@/types/AppointmentStatus";
-import axios from "axios";
+import request from "@/api/request";
 
 interface AppointmentListItem {
   id: string;
@@ -33,10 +33,10 @@ function useAppointmensQuery(status: AppointmentStatus) {
       },
     ],
     queryFn: async () => {
-      const response = await axios.get<{
+      const response = await request.get<{
         data: AppointmentListItem[];
         nextToken: string | null;
-      }>("/api/appointment/list", {
+      }>("/appointment/list", {
         params: {
           type: status,
         },

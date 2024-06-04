@@ -9,14 +9,14 @@ import { Button } from "@/components/ui/button";
 import { useDraftStore } from "@/components/store/useDraftStore";
 import { useNavigate } from "react-router-dom";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import request from "@/api/request";
 
 function useMeQuery() {
   return useSuspenseQuery({
     queryKey: ["user", "me"],
     queryFn: async () => {
-      const response = await fetch("/api/user/me");
-      const data = await response.json();
-      return data;
+      const response = await request("/user/me");
+      return response.data;
     },
   });
 }

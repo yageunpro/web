@@ -1,7 +1,7 @@
+import request from "@/api/request";
 import { EditMapView } from "@/features/categoryMap/EditMapView/EditMapView";
 import { AppointmentModel } from "@/types/AppointmentModel";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -11,8 +11,8 @@ export function EditCategories() {
   const { data: appointment, refetch } = useSuspenseQuery({
     queryKey: ["appointment", appointmentId],
     queryFn: async () => {
-      const response = await axios.get<AppointmentModel>(
-        `/api/appointment/${appointmentId}`
+      const response = await request.get<AppointmentModel>(
+        `/appointment/${appointmentId}`
       );
       return response.data;
     },
@@ -29,7 +29,7 @@ export function EditCategories() {
 
   const { mutate } = useMutation({
     mutationFn: async () => {
-      await axios.patch(`/api/appointment/${appointmentId}`, {
+      await request.patch(`/appointment/${appointmentId}`, {
         categoryList,
         location_id: locationId,
       });

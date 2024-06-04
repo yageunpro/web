@@ -5,12 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { AppointmentModel } from "@/types/AppointmentModel";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import axios from "axios";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { stripHtml } from "@/lib/utils";
+import request from "@/api/request";
 
 export function EditAppointment() {
   const navigate = useNavigate();
@@ -21,8 +21,8 @@ export function EditAppointment() {
   const { data: appointment } = useSuspenseQuery({
     queryKey: ["appointment", appointmentId],
     queryFn: async () => {
-      const response = await axios.get<AppointmentModel>(
-        `/api/appointment/${appointmentId}`
+      const response = await request.get<AppointmentModel>(
+        `/appointment/${appointmentId}`
       );
       return response.data;
     },
@@ -33,13 +33,15 @@ export function EditAppointment() {
 
   const { mutate } = useMutation({
     mutationFn: async () => {
-      await axios.patch(`/api/appointment/${appointmentId}`, {
+      await request.patch(`/appointment/${appointmentId}`, {
         title,
         description,
       });
     },
     onSuccess: () => {
-      navigate(`/appointments/${appointmentId}`);
+      navigate(`/appointments/${appointmentId}`, {
+        replace: true,
+      });
     },
   });
 
@@ -88,7 +90,9 @@ export function EditAppointment() {
             placeholder="장소를 추가하세요"
             value={stripHtml(appointment.location?.title ?? "")}
             onClick={() => {
-              navigate(`/appointments/${appointmentId}/edit/location`);
+              navigate(`/appointments/${appointmentId}/edit/location`, {
+                replace: true,
+              });
             }}
           />
           <div className="flex gap-2">

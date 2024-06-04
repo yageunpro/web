@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useNavermaps } from "react-naver-maps";
+import request from "@/api/request";
 
 const BottomButtonSize = 72;
 
@@ -20,13 +21,10 @@ function useLocationQuery(categoryList: string[]) {
   return useQuery({
     queryKey: ["location", categoryList],
     queryFn: async () => {
-      const response = await fetch(
-        `/api/location?${categoryList
-          .map((category) => `q=${category}`)
-          .join("&")}`
+      const response = await request(
+        `/location?${categoryList.map((category) => `q=${category}`).join("&")}`
       );
-      const data = await response.json();
-      return data;
+      return response.data;
     },
     enabled: categoryList.length > 0,
   });
@@ -72,8 +70,6 @@ export function EditMapView({
     console.log(map);
     map.setCenter(latLng);
   }, [data, location, map, navermaps.LatLng]);
-
-  console.log(data);
 
   const handleChangeCategories = (categoryList: string[]) => {
     setCategoryList(categoryList);

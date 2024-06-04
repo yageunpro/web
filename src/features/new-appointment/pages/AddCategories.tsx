@@ -1,7 +1,7 @@
+import request from "@/api/request";
 import { draftStore, useDraftStore } from "@/components/store/useDraftStore";
 import { EditMapView } from "@/features/categoryMap/EditMapView/EditMapView";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export function AddCategories() {
@@ -13,7 +13,7 @@ export function AddCategories() {
   const aa = useMutation({
     mutationFn: async () => {
       // post appointment
-      return axios.post("/api/appointment", draftStore.body());
+      return request.post("/appointment", draftStore.body());
     },
     onSuccess: ({ data }) => {
       console.log(data);
