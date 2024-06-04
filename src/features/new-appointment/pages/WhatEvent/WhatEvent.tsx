@@ -8,12 +8,28 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useDraftStore } from "@/components/store/useDraftStore";
 import { useNavigate } from "react-router-dom";
+import { useSuspenseQuery } from "@tanstack/react-query";
+
+function useMeQuery() {
+  return useSuspenseQuery({
+    queryKey: ["user", "me"],
+    queryFn: async () => {
+      const response = await fetch("/api/user/me");
+      const data = await response.json();
+      return data;
+    },
+  });
+}
 
 export function WhatEvent() {
-  const [title, setTitle] = useState("");
+  const { data } = useMeQuery();
+
+  const [title, setTitle] = useState(`${data.username}의 모임`);
   const [description, setDescription] = useState("");
 
   const navigate = useNavigate();
+
+  console.log(data);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

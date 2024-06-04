@@ -23,7 +23,7 @@ export function AddCategories() {
       <Title>약속장소를 추가하세요</Title>
 
       <div className={styles.wrapper}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={null}>
           <MapView />
         </Suspense>
 
