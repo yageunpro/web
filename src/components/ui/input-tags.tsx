@@ -2,11 +2,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input, InputProps } from "@/components/ui/input";
 import { XIcon } from "lucide-react";
-import { Dispatch, SetStateAction, forwardRef, useState } from "react";
+import { forwardRef, useState } from "react";
 
 type InputTagsProps = Omit<InputProps, "onChange"> & {
   value: string[];
-  onChange: Dispatch<SetStateAction<string[]>>;
+  onChange: (args: string[]) => void;
 };
 
 export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(

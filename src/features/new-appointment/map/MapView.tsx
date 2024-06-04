@@ -5,13 +5,12 @@ import {
   useNavermaps,
 } from "react-naver-maps";
 
-import styles from "./MapView.module.scss";
-
 export function MapView() {
   const navermaps = useNavermaps();
 
   return (
-    <MapDiv className={styles.mapDiv}>
+    <MapDiv className="w-full h-full relative">
+      {" "}
       <NaverMap
         defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
         defaultZoom={15}

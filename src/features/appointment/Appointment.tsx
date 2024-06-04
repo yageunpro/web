@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { PersonStandingIcon } from "lucide-react";
 import { AppointmentModel } from "@/types/AppointmentModel";
+import { useParams } from "react-router-dom";
 
 const appointment: AppointmentModel = {
   id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -21,6 +22,9 @@ const appointment: AppointmentModel = {
 };
 
 export function Appointment() {
+  const { appointmentId } = useParams();
+  console.log(appointmentId);
+
   return (
     <>
       <Title>{appointment.title}</Title>
