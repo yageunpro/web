@@ -5,11 +5,11 @@ import { My } from "@/features/my";
 import { Auth } from "@/features/auth";
 import { Appointment } from "@/features/appointment";
 import {
+  AddCategories,
   ExcludedSchedule,
   WhatEvent,
   WhenWillMeet,
 } from "@/features/new-appointment/pages";
-import { AddCategories } from "@/features/categoryMap/AddCategories/AddCategories";
 
 const router = createBrowserRouter([
   {

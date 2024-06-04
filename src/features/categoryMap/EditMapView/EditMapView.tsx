@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Title from "../../../components/Title";
 import {
   NextButton,
@@ -6,10 +6,9 @@ import {
 } from "../../new-appointment/components/NextButton";
 import { MapView } from "../../new-appointment/map";
 
-import styles from "./AddCategories.module.scss";
+import styles from "./EditMapView.module.scss";
 import { InputTags } from "@/components/ui/input-tags";
 import { Button } from "@/components/ui/button";
-import { useDraftStore } from "@/components/store/useDraftStore";
 import { useQuery } from "@tanstack/react-query";
 import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -33,16 +32,21 @@ function useLocationQuery(categoryList: string[]) {
   });
 }
 
-export function AddCategories() {
+export function EditMapView({
+  categoryList,
+  locationId,
+  setCategoryList,
+  setLocationId,
+  onSubmit,
+}: {
+  categoryList: string[];
+  locationId: string;
+  setCategoryList: (categoryList: string[]) => void;
+  setLocationId: (locationId: string) => void;
+  onSubmit: () => void;
+}) {
   const navermaps = useNavermaps();
   const [map, setMap] = useState(null);
-
-  const handleClick = () => {
-    alert(JSON.stringify(useDraftStore.getState()));
-  };
-
-  const categoryList = useDraftStore((state) => state.categoryList);
-  const locationId = useDraftStore((state) => state.location_id);
 
   const { data } = useLocationQuery(categoryList);
 
@@ -72,14 +76,14 @@ export function AddCategories() {
   console.log(data);
 
   const handleChangeCategories = (categoryList: string[]) => {
-    useDraftStore.setState({ categoryList: categoryList });
+    setCategoryList(categoryList);
   };
 
   const handleClickLocation = ($locationId: string) => {
     if (locationId === $locationId) {
-      useDraftStore.setState({ location_id: "" });
+      setLocationId("");
     } else {
-      useDraftStore.setState({ location_id: $locationId });
+      setLocationId($locationId);
     }
   };
 
@@ -131,7 +135,7 @@ export function AddCategories() {
       </div>
 
       <NextButton>
-        <Button onClick={handleClick} className={NextButtonStyle}>
+        <Button onClick={onSubmit} className={NextButtonStyle}>
           완료
         </Button>
       </NextButton>
