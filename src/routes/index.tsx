@@ -10,6 +10,7 @@ import {
   WhatEvent,
   WhenWillMeet,
 } from "@/features/new-appointment/pages";
+import { EditCategories } from "@/features/appointment/EditCategories";
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/appointments/:appointmentId/editCategory",
-    element: <AddCategories />,
+    element: <EditCategories />,
   },
   {
     path: "/appointments/:appointmentId",
