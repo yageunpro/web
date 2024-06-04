@@ -14,6 +14,7 @@ import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useNavermaps } from "react-naver-maps";
 import request from "@/api/request";
+import { LocationModel } from "@/types/LocationModel";
 
 const BottomButtonSize = 72;
 
@@ -21,7 +22,7 @@ function useLocationQuery(categoryList: string[]) {
   return useQuery({
     queryKey: ["location", categoryList],
     queryFn: async () => {
-      const response = await request(
+      const response = await request.get<LocationModel[]>(
         `/location?${categoryList.map((category) => `q=${category}`).join("&")}`
       );
       return response.data;
@@ -68,6 +69,7 @@ export function EditMapView({
 
     console.log(latLng);
     console.log(map);
+    // @ts-expect-error navermap 타입은 구리다
     map.setCenter(latLng);
   }, [data, location, map, navermaps.LatLng]);
 
