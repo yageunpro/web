@@ -4,13 +4,23 @@ import styles from "./Appointment.module.scss";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
-import { PersonStandingIcon } from "lucide-react";
+import { MoreVerticalIcon, PersonStandingIcon } from "lucide-react";
 import { AppointmentModel } from "@/types/AppointmentModel";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Appointment() {
+  const navigate = useNavigate();
+
   const { appointmentId } = useParams();
   console.log(appointmentId);
 
@@ -24,11 +34,41 @@ export function Appointment() {
     },
   });
 
-  console.log(appointment);
+  const { mutate: deleteAppointment } = useMutation({
+    mutationFn: async () => {
+      await axios.delete(`/api/appointment/${appointmentId}`);
+    },
+    onSuccess: () => {
+      navigate("/");
+    },
+  });
 
   return (
     <>
-      <Title>{appointment.title}</Title>
+      <Title
+        RightComponent={
+          <DropdownMenu>
+            <DropdownMenuTrigger className="p-2">
+              <MoreVerticalIcon size={24} />
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent className="mr-6">
+              <DropdownMenuItem>공유하기</DropdownMenuItem>
+              <DropdownMenuItem>편집</DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-red-500"
+                onClick={() => {
+                  deleteAppointment();
+                }}
+              >
+                삭제
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        }
+      >
+        {appointment.title}
+      </Title>
 
       <section className={styles.information}>
         <p className={styles.description}>{appointment.description}</p>
