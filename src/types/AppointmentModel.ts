@@ -4,7 +4,7 @@ import { AppointmentStatus } from "./AppointmentStatus";
 export const AppointmentModel = z.object({
   id: z.string(),
   title: z.string(),
-  description: z.string().optional().nullable(),
+  description: z.string().optional(),
   location: z.object({}), // TODO: Define location type
   categoryList: z.array(z.string()),
   participantList: z.array(

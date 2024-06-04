@@ -1,10 +1,11 @@
+import React from "react";
 import styles from "./Title.module.scss";
 
 export function Title({
   children,
   RightComponent,
 }: {
-  children: string;
+  children?: React.ReactNode;
   RightComponent?: React.ReactNode;
 }) {
   return (

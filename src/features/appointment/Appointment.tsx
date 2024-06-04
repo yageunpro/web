@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 export function Appointment() {
   const navigate = useNavigate();
@@ -48,6 +49,15 @@ export function Appointment() {
     },
   });
 
+  const edit = (id?: string) => () => {
+    if (id) {
+      navigate(`./edit?input=${id}`);
+      return;
+    }
+
+    navigate(`./edit`);
+  };
+
   return (
     <>
       <Drawer open={openDrawer} onOpenChange={(open) => setOpenDrawer(open)}>
@@ -66,7 +76,7 @@ export function Appointment() {
                 >
                   공유
                 </DropdownMenuItem>
-                <DropdownMenuItem>편집</DropdownMenuItem>
+                <DropdownMenuItem onClick={edit()}>편집</DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-red-500"
                   onClick={() => {
@@ -79,19 +89,41 @@ export function Appointment() {
             </DropdownMenu>
           }
         >
-          {appointment.title}
+          내 약속
         </Title>
 
         <section className={styles.information}>
-          <p className={styles.description}>{appointment.description}</p>
+          <div className={styles.field}>
+            <Label htmlFor="title">제목</Label>
+            <Input
+              id="title"
+              value={appointment.title}
+              readOnly
+              onClick={edit("title")}
+            />
+          </div>
 
           <div className={styles.field}>
-            <Label htmlFor="">장소</Label>
+            <Label htmlFor="description">설명</Label>
+            <Textarea
+              id="description"
+              onClick={edit("description")}
+              readOnly
+              placeholder="설명을 추가하세요"
+              value={appointment.description}
+            />
+          </div>
+
+          <div className={styles.field}>
+            <Label htmlFor="location">장소</Label>
             <Input
+              id="location"
               type="text"
               placeholder="장소를 추가하세요"
               readOnly
-              onClick={() => {}}
+              onClick={() => {
+                navigate(`/appointments/${appointmentId}/edit/location`);
+              }}
             />
             <div className="flex gap-2">
               {appointment.categoryList.map((keyword, index) => (

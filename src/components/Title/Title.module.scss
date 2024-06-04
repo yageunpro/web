@@ -1,11 +1,12 @@
 .wrapper {
-  padding: 8px 8px 8px 24px;
+  padding: 8px 16px 8px 24px;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: 150%; /* 36px */
 
   .right {
+    flex-shrink: 0;
     float: right;
   }
 }

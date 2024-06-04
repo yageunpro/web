@@ -11,6 +11,7 @@ import {
   WhenWillMeet,
 } from "@/features/new-appointment/pages";
 import { EditCategories } from "@/features/appointment/EditCategories";
+import { EditAppointment } from "./features/appointment/EditAppointment";
 
 export function App() {
   return (
@@ -31,8 +32,12 @@ export function App() {
         </Route>
 
         <Route
-          path="/appointments/:appointmentId/editCategory"
+          path="/appointments/:appointmentId/edit/location"
           element={<EditCategories />}
+        />
+        <Route
+          path="/appointments/:appointmentId/edit"
+          element={<EditAppointment />}
         />
         <Route path="/appointments/:appointmentId" element={<Appointment />} />
 
