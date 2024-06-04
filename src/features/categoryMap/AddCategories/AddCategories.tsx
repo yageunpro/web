@@ -11,14 +11,10 @@ import { InputTags } from "@/components/ui/input-tags";
 import { Button } from "@/components/ui/button";
 import { useDraftStore } from "@/components/store/useDraftStore";
 import { useQuery } from "@tanstack/react-query";
-import { Card } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
-import { RadioGroupItemModern } from "@/components/ui/radio-group-modern";
 import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-const BottomButtonSize = 86;
+const BottomButtonSize = 72;
 
 function useLocationQuery(categories: string[]) {
   return useQuery({
@@ -42,8 +38,23 @@ export function AddCategories() {
   };
 
   const [categories, setCategories] = useState<string[]>(["숭실대", "햄버거"]);
+  const [selectedLocation, setSelectedLocation] = useState<string | undefined>(
+    undefined
+  );
 
   const { data } = useLocationQuery(categories);
+
+  const location = data?.find((location) => location.id === selectedLocation);
+
+  const handleClickLocation = (locationId: string) => {
+    if (selectedLocation === locationId) {
+      setSelectedLocation(undefined);
+    } else {
+      setSelectedLocation(locationId);
+    }
+  };
+
+  console.log(location);
 
   console.log(data);
 
@@ -68,38 +79,35 @@ export function AddCategories() {
           />
         </div>
 
-        {/* <ul
-          className={`absolute w-full flex p-4 gap-2`}
-          style={{ bottom: BottomButtonSize }}
-        >
-          {categories.map((category, index) => (
-            <Card key={index} className=" p-2">
-              {category}
-            </Card>
-          ))}
-        </ul> */}
-
         <div className="w-full absolute" style={{ bottom: BottomButtonSize }}>
-          <ButtonGroup>
-            {data &&
-              data.map((location) => (
-                <ButtonGroupItem
-                  key={location.id}
-                  className="border border-gray-300 rounded-md"
-                >
-                  {location.title}
-                </ButtonGroupItem>
-              ))}
-          </ButtonGroup>
-          {/* {data && data.length > 0 && (
-            <RadioGroup className="overflow-x-auto">
-              {data.map((location) => (
-                <RadioGroupItemModern key={location.id} value={location.id}>
-                  {location.title}
-                </RadioGroupItemModern>
-              ))}
-            </RadioGroup>
-          )} */}
+          {data && (
+            <ButtonGroup value={selectedLocation}>
+              <ScrollArea className="w-full whitespace-nowrap rounded-md">
+                <div className="flex w-max space-x-4 p-4">
+                  {data.map((location) => (
+                    <ButtonGroupItem
+                      value={location.id}
+                      key={location.id}
+                      checked={selectedLocation === location.id}
+                      className="border bg-background data-[state=checked]:outline-slate-950 data-[state=checked]:outline-2 text-center h-full w-[156px] rounded-md focus:outline-none 2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 shrink-0 overflow-hidden px-2 h-[82px] text-left"
+                      onClick={() => handleClickLocation(location.id)}
+                    >
+                      <div className="flex flex-col gap-[2px] w-full overflow-hidden ">
+                        <div
+                          dangerouslySetInnerHTML={{ __html: location.title }}
+                          className="w-full overflow-hidden text-sm text-ellipsis"
+                        />
+                        <p className="w-full whitespace-normal break-before-auto text-xs">
+                          {location.address}
+                        </p>
+                      </div>
+                    </ButtonGroupItem>
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </ButtonGroup>
+          )}
         </div>
       </div>
 
