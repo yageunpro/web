@@ -23,11 +23,11 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
 
     return (
       <>
-        <div className="flex">
+        <div className="flex relative overflow-hidden rounded-md">
           <Input
             value={pendingDataPoint}
             onChange={(e) => setPendingDataPoint(e.target.value)}
-            onKeyDown={(e) => {
+            onKeyUp={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
                 addPendingDataPoint();
@@ -43,7 +43,7 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
           <Button
             type="button"
             variant="secondary"
-            className="rounded-l-none border border-l-0"
+            className="rounded-l-none border border-l-0 absolute h-full right-0"
             onClick={addPendingDataPoint}
           >
             Add
