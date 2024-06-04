@@ -18,7 +18,7 @@ export function AddCategories() {
     onSuccess: ({ data }) => {
       console.log(data);
       useDraftStore.getState().reset();
-      navigate(`/appointments/${data.id}`);
+      navigate(`/appointments/${data.id}?new=true`);
     },
   });
 
