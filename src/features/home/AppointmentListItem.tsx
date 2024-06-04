@@ -6,8 +6,10 @@ import { Badge } from "@/components/ui/badge";
 export function AppointmentListItem({
   id,
   title,
-  participantList,
-}: Pick<AppointmentModel, "id" | "title" | "participantList" | "location">) {
+  headCount,
+}: {
+  headCount: number;
+} & Pick<AppointmentModel, "id" | "title" | "location">) {
   return (
     <Link to={`/appointments/${id}`}>
       <Card>
@@ -15,9 +17,7 @@ export function AppointmentListItem({
           <CardTitle className="flex items-center gap-2">
             {title}
 
-            {participantList.length > 0 && (
-              <Badge variant="outline">{participantList.length}명</Badge>
-            )}
+            {headCount > 1 && <Badge variant="outline">{headCount}명</Badge>}
           </CardTitle>
         </CardHeader>
       </Card>

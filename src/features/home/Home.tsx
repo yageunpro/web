@@ -5,8 +5,54 @@ import styles from "./Home.module.scss";
 import { cn } from "@/lib/utils";
 import { AppointmentListItem } from "./AppointmentListItem";
 import { NextButton } from "../new-appointment/components/NextButton";
+import { useQuery } from "@tanstack/react-query";
+import { AppointmentStatus } from "@/types/AppointmentStatus";
+import axios from "axios";
+
+interface AppointmentListItem {
+  id: string;
+  title: string;
+  headCount: number;
+  confirmTime: string | null;
+  status: AppointmentStatus;
+  location: {
+    address: string;
+    category: string;
+    id: string;
+    position: [number, number];
+    title: string;
+  };
+}
+
+function useAppointmensQuery(status: AppointmentStatus) {
+  return useQuery({
+    queryKey: [
+      "appointments",
+      {
+        status,
+      },
+    ],
+    queryFn: async () => {
+      const response = await axios.get<{
+        data: AppointmentListItem[];
+        nextToken: string | null;
+      }>("/api/appointment/list", {
+        params: {
+          type: status,
+        },
+      });
+      return response.data;
+    },
+  });
+}
 
 export function Home() {
+  const { data: draftAppointments } = useAppointmensQuery("DRAFT");
+  const { data: confirmAppointments } = useAppointmensQuery("CONFIRM");
+
+  console.log(draftAppointments);
+  console.log(confirmAppointments);
+
   return (
     <>
       <Title>내 약속</Title>
@@ -15,37 +61,31 @@ export function Home() {
         <section>
           <h3>😴 약속 정하는 중</h3>
           <ul>
-            <AppointmentListItem
-              id="12"
-              title="약속 1"
-              participantList={[]}
-              location={{}}
-            />
-            <AppointmentListItem
-              id="13"
-              title="약속 2"
-              participantList={[]}
-              location={{}}
-            />
+            {draftAppointments?.data?.map((appointment) => (
+              <AppointmentListItem
+                id={appointment.id}
+                title={appointment.title}
+                headCount={appointment.headCount}
+                location={appointment.location}
+              />
+            ))}
           </ul>
         </section>
-        <section>
-          <h3>🕖 다가오는 약속</h3>
-          <ul>
-            <AppointmentListItem
-              id="14"
-              title="약속 3"
-              participantList={["한도협", "홍길동"]}
-              location={{}}
-            />
-            <AppointmentListItem
-              id="15"
-              title="약속 4"
-              participantList={["한도협", "홍길동"]}
-              location={{}}
-            />
-          </ul>
-        </section>
+        {(confirmAppointments?.data?.length ?? 0) > 0 && (
+          <section>
+            <h3>🕖 다가오는 약속</h3>
+            <ul>
+              {confirmAppointments?.data.map((appointment) => (
+                <AppointmentListItem
+                  id={appointment.id}
+                  title={appointment.title}
+                  headCount={appointment.headCount}
+                  location={appointment.location}
+                />
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
 
       <NextButton>
