@@ -109,13 +109,13 @@ export function Home() {
             </ul>
           </section>
         )}
-
-        {!hasDraftAppointments && !hasConfirmAppointments && (
-          <div className={styles.empty}>
-            <p className="text-secondary">아직 약속이 없어요.</p>
-          </div>
-        )}
       </div>
+
+      {!hasDraftAppointments && !hasConfirmAppointments && (
+        <div className="h-full flex items-center justify-center flex-col pb-32">
+          <p className="text-secondary">아직 약속이 없어요.</p>
+        </div>
+      )}
 
       <NextButton>
         <Link
