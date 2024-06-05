@@ -10,13 +10,10 @@ import styles from "./EditMapView.module.scss";
 import { InputTags } from "@/components/ui/input-tags";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useNavermaps } from "react-naver-maps";
 import request from "@/api/request";
 import { LocationModel } from "@/types/LocationModel";
-
-const BottomButtonSize = 72;
+import { LocationListView } from "./LocationListView";
 
 function useLocationQuery(categoryList: string[]) {
   return useQuery({
@@ -100,36 +97,11 @@ export function EditMapView({
           />
         </div>
 
-        <div className="w-full absolute" style={{ bottom: BottomButtonSize }}>
-          {data && (
-            <ButtonGroup value={locationId}>
-              <ScrollArea className="w-full whitespace-nowrap rounded-md">
-                <div className="flex w-max space-x-4 p-4">
-                  {data.map((location) => (
-                    <ButtonGroupItem
-                      value={location.id}
-                      key={location.id}
-                      checked={locationId === location.id}
-                      className="border bg-background data-[state=checked]:border-slate-950 w-[156px] rounded-md focus:outline-none 2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 shrink-0 overflow-hidden px-2 h-[82px] text-left"
-                      onClick={() => handleClickLocation(location.id)}
-                    >
-                      <div className="flex flex-col gap-[2px] w-full overflow-hidden ">
-                        <div
-                          dangerouslySetInnerHTML={{ __html: location.title }}
-                          className="w-full overflow-hidden text-sm text-ellipsis"
-                        />
-                        <p className="w-full whitespace-normal break-before-auto text-xs">
-                          {location.address}
-                        </p>
-                      </div>
-                    </ButtonGroupItem>
-                  ))}
-                </div>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
-            </ButtonGroup>
-          )}
-        </div>
+        <LocationListView
+          locationList={data}
+          selectedLocationId={locationId}
+          onClickLocation={handleClickLocation}
+        />
       </div>
 
       <NextButton>
