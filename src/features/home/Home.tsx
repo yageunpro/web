@@ -8,6 +8,7 @@ import { NextButton } from "../new-appointment/components/NextButton";
 import { useQuery } from "@tanstack/react-query";
 import { AppointmentStatus } from "@/types/AppointmentStatus";
 import request from "@/api/request";
+import { UserRoundIcon } from "lucide-react";
 
 interface AppointmentListItem {
   id: string;
@@ -55,7 +56,21 @@ export function Home() {
 
   return (
     <>
-      <Title>내 약속</Title>
+      <Title
+        RightComponent={
+          <Link
+            to="/me"
+            className={buttonVariants({
+              size: "icon",
+              variant: "ghost",
+            })}
+          >
+            <UserRoundIcon size={20} />
+          </Link>
+        }
+      >
+        내 약속
+      </Title>
 
       <div className={styles.wrapper}>
         <section>
