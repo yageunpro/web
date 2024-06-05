@@ -175,7 +175,7 @@ export function Appointment() {
               인원: {appointment.participantList.length}명
             </Label>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               {appointment.participantList.map((participant) => (
                 <Badge key={participant.id} variant="outline" className="pr-4">
                   <PersonStandingIcon size={16} />
