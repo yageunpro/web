@@ -54,6 +54,9 @@ export function Home() {
   console.log(draftAppointments);
   console.log(confirmAppointments);
 
+  const hasDraftAppointments = !!draftAppointments?.data.length;
+  const hasConfirmAppointments = !!confirmAppointments?.data.length;
+
   return (
     <>
       <Title
@@ -73,21 +76,24 @@ export function Home() {
       </Title>
 
       <div className={styles.wrapper}>
-        <section>
-          <h3>😴 약속 정하는 중</h3>
-          <ul>
-            {draftAppointments?.data?.map((appointment) => (
-              <AppointmentListItem
-                key={appointment.id}
-                id={appointment.id}
-                title={appointment.title}
-                headCount={appointment.headCount}
-                location={appointment.location}
-              />
-            ))}
-          </ul>
-        </section>
-        {(confirmAppointments?.data?.length ?? 0) > 0 && (
+        {hasDraftAppointments && (
+          <section>
+            <h3>😴 약속 정하는 중</h3>
+            <ul>
+              {draftAppointments?.data?.map((appointment) => (
+                <AppointmentListItem
+                  key={appointment.id}
+                  id={appointment.id}
+                  title={appointment.title}
+                  headCount={appointment.headCount}
+                  location={appointment.location}
+                />
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {hasConfirmAppointments && (
           <section>
             <h3>🕖 다가오는 약속</h3>
             <ul>
@@ -102,6 +108,12 @@ export function Home() {
               ))}
             </ul>
           </section>
+        )}
+
+        {!hasDraftAppointments && !hasConfirmAppointments && (
+          <div className={styles.empty}>
+            <p className="text-secondary">아직 약속이 없어요.</p>
+          </div>
         )}
       </div>
 
