@@ -28,6 +28,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useMeQuery } from "@/hooks/useMeQuery";
+import { Recommendation } from "./Recommendation";
 
 export function Appointment() {
   const navigate = useNavigate();
@@ -229,6 +230,8 @@ export function Appointment() {
           {/* <Button>카카오톡으로 공유하기</Button> */}
         </DrawerContent>
       </Drawer>
+
+      {isMine && <Recommendation appointmentId={appointmentId} />}
     </>
   );
 }
