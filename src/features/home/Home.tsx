@@ -63,6 +63,7 @@ export function Home() {
           <ul>
             {draftAppointments?.data?.map((appointment) => (
               <AppointmentListItem
+                key={appointment.id}
                 id={appointment.id}
                 title={appointment.title}
                 headCount={appointment.headCount}
@@ -77,6 +78,7 @@ export function Home() {
             <ul>
               {confirmAppointments?.data.map((appointment) => (
                 <AppointmentListItem
+                  key={appointment.id}
                   id={appointment.id}
                   title={appointment.title}
                   headCount={appointment.headCount}
