@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import { Home } from "@/features/home";
-import { My } from "@/features/my";
+import { Me } from "@/features/me";
 import { Auth } from "@/features/auth";
 import { Appointment } from "@/features/appointment";
 import {
@@ -23,6 +23,9 @@ export function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+
+        <Route path="/me" element={<Me />} />
+
         <Route path="/login" element={<Auth />} />
 
         <Route path="/appointments/new">
@@ -41,8 +44,6 @@ export function App() {
           element={<EditAppointment />}
         />
         <Route path="/appointments/:appointmentId" element={<Appointment />} />
-
-        <Route path="/my" element={<My />} />
       </Routes>
 
       <Toaster />
