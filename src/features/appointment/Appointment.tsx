@@ -27,20 +27,12 @@ import request from "@/api/request";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useMeQuery } from "@/hooks/useMeQuery";
 
 export function Appointment() {
   const navigate = useNavigate();
 
-  const [searchParams] = useSearchParams();
-  const isNew = searchParams.get("new"); // test
-
-  if (isNew) {
-    navigate(".", {
-      replace: true,
-    });
-  }
-
-  const [openDrawer, setOpenDrawer] = useState(isNew ? true : false);
+  const { data: me } = useMeQuery();
 
   const { appointmentId } = useParams();
   console.log(appointmentId);
@@ -55,6 +47,19 @@ export function Appointment() {
     },
   });
 
+  const isMine = me.id === appointment.organizer_id;
+
+  const [searchParams] = useSearchParams();
+  const isNew = searchParams.get("new"); // test
+
+  if (isNew) {
+    navigate(".", {
+      replace: true,
+    });
+  }
+
+  const [openDrawer, setOpenDrawer] = useState(isNew ? true : false);
+
   const { mutate: deleteAppointment } = useMutation({
     mutationFn: async () => {
       await request.delete(`/appointment/${appointmentId}`);
@@ -67,6 +72,10 @@ export function Appointment() {
   });
 
   const edit = (id?: string) => () => {
+    if (!isMine) {
+      return;
+    }
+
     if (id) {
       navigate(`./edit?input=${id}`, {
         replace: true,
@@ -81,35 +90,39 @@ export function Appointment() {
 
   const url = `${window.location.origin}/appointments/${appointmentId}`;
 
+  console.log(isMine);
+
   return (
     <>
       <Drawer open={openDrawer} onOpenChange={(open) => setOpenDrawer(open)}>
         <Title
           RightComponent={
-            <DropdownMenu>
-              <DropdownMenuTrigger className="p-2">
-                <MoreVerticalIcon size={24} />
-              </DropdownMenuTrigger>
+            isMine && (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="p-2">
+                  <MoreVerticalIcon size={24} />
+                </DropdownMenuTrigger>
 
-              <DropdownMenuContent className="mr-6">
-                <DropdownMenuItem
-                  onClick={() => {
-                    setOpenDrawer(true);
-                  }}
-                >
-                  공유
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={edit()}>편집</DropdownMenuItem>
-                <DropdownMenuItem
-                  className="text-red-500"
-                  onClick={() => {
-                    deleteAppointment();
-                  }}
-                >
-                  삭제
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                <DropdownMenuContent className="mr-6">
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setOpenDrawer(true);
+                    }}
+                  >
+                    공유
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={edit()}>편집</DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="text-red-500"
+                    onClick={() => {
+                      deleteAppointment();
+                    }}
+                  >
+                    삭제
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )
           }
         >
           내 약속
@@ -146,6 +159,9 @@ export function Appointment() {
               readOnly
               value={stripHtml(appointment.location?.title ?? "")}
               onClick={() => {
+                if (!isMine) {
+                  return;
+                }
                 navigate(`/appointments/${appointmentId}/edit/location`, {
                   replace: true,
                 });
