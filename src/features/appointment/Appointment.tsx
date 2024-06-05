@@ -231,7 +231,9 @@ export function Appointment() {
         </DrawerContent>
       </Drawer>
 
-      {isMine && <Recommendation appointmentId={appointmentId} />}
+      {isMine && appointment.status === "DRAFT" && (
+        <Recommendation appointmentId={appointmentId} />
+      )}
     </>
   );
 }
