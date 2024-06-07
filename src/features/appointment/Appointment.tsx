@@ -238,6 +238,7 @@ export function Appointment() {
             onCopy={() => {
               toast("클립보드에 복사됨", {
                 duration: 2000,
+                position: "top-center",
               });
             }}
           >
