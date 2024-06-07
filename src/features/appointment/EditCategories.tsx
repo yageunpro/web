@@ -22,7 +22,7 @@ export function EditCategories() {
     appointment.categoryList
   );
   const [locationId, setLocationId] = useState<string>(
-    appointment.location?.id
+    appointment.location?.id ?? ""
   );
 
   const navigate = useNavigate();

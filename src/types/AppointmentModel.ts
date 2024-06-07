@@ -7,7 +7,7 @@ export const AppointmentModel = z.object({
   organizer_id: z.string(),
   title: z.string(),
   description: z.string().optional(),
-  location: LocationModel,
+  location: LocationModel.nullable(),
   categoryList: z.array(z.string()),
   participantList: z.array(
     z.object({

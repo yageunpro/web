@@ -12,8 +12,9 @@ interface TakerStore {
 
 export const useTakerStore = create<TakerStore>()(
   persist(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    (set) => ({
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+    // @ts-expect-error aasdf
+    (set, get) => ({
       isMember: false,
       userName: "",
       scheduleList: [],
