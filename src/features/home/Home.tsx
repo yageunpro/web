@@ -36,7 +36,7 @@ export function Home() {
             buttonVariants({
               size: "lg",
             }),
-            "self-stretch"
+            "self-stretch font-bold"
           )}
           to="/appointments/new/1"
         >

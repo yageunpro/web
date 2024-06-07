@@ -20,7 +20,14 @@ export function AppointmentListItem({
           <CardTitle className="flex items-center gap-2">
             {title}
 
-            {headCount > 1 && <Badge variant="outline">{headCount}명</Badge>}
+            {headCount > 1 && (
+              <Badge
+                className="py-0.5 px-2 font-normal text-xs"
+                variant="outline"
+              >
+                {headCount}명
+              </Badge>
+            )}
           </CardTitle>
         </CardHeader>
 

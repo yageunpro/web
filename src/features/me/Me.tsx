@@ -33,8 +33,8 @@ export function Me() {
         </div>
 
         <div className="flex flex-col px-3">
-          <Card className="p-3 flex gap-3">
-            <img src={GoogleIcon} alt="Google" />
+          <Card className="p-3 flex flex-row gap-2">
+            <img src={GoogleIcon} alt="Google" width={24} />
             {me.email}
           </Card>
         </div>

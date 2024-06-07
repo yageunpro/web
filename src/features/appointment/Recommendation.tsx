@@ -70,7 +70,7 @@ export function Recommendation({
             buttonVariants({
               size: "lg",
             }),
-            "self-stretch"
+            "self-stretch font-bold"
           )}
         >
           약속 확정하기
