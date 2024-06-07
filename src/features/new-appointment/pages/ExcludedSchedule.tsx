@@ -119,6 +119,7 @@ export function ExcludedSchedule() {
               "self-stretch font-bold"
             )}
             to="/appointments/new/3"
+            replace
           >
             다음
           </Link>

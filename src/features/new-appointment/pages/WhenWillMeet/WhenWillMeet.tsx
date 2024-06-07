@@ -11,7 +11,7 @@ export function WhenWillMeet() {
   const navigate = useNavigate();
 
   const next = () => {
-    navigate("/appointments/new/2");
+    navigate("/appointments/new/2", { replace: true });
   };
 
   const currentDate = useRef(new Date()).current;

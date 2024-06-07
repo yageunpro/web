@@ -27,7 +27,7 @@ export function WhatEvent() {
 
     useDraftStore.setState({ title, description });
 
-    navigate("/appointments/new/4");
+    navigate("/appointments/new/4", { replace: true });
   };
 
   return (

@@ -14,7 +14,7 @@ export function AppointmentList() {
   const hasConfirmAppointments = !!confirmAppointments?.data.length;
 
   return (
-    <>
+    <div className="pb-32">
       {hasDraftAppointments && (
         <section className={styles.section}>
           <h3>😴 약속 정하는 중</h3>
@@ -42,6 +42,6 @@ export function AppointmentList() {
           <p className="text-secondary">아직 약속이 없어요.</p>
         </div>
       )}
-    </>
+    </div>
   );
 }

@@ -31,12 +31,12 @@ export function EditCategories() {
     mutationFn: async () => {
       await request.patch(`/appointment/${appointmentId}`, {
         categoryList,
-        location_id: locationId,
+        location_id: locationId || null,
       });
     },
     onSuccess: () => {
       refetch();
-      navigate(`/appointments/${appointmentId}`);
+      navigate(`/appointments/${appointmentId}`, { replace: true });
     },
   });
 
