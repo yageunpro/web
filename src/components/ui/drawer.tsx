@@ -58,7 +58,7 @@ const DrawerHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "grid gap-1.5 pt-6 pb-2 px-2 text-center sm:text-left",
+      "grid gap-1.5 pt-6 pb-2 px-4 text-center sm:text-left",
       className
     )}
     {...props}

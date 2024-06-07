@@ -20,30 +20,18 @@ export function AppointmentList() {
           <h3>😴 약속 정하는 중</h3>
           <ul>
             {draftAppointments?.data?.map((appointment) => (
-              <AppointmentListItem
-                key={appointment.id}
-                id={appointment.id}
-                title={appointment.title}
-                headCount={appointment.headCount}
-                location={appointment.location}
-              />
+              <AppointmentListItem key={appointment.id} {...appointment} />
             ))}
           </ul>
         </section>
       )}
 
       {hasConfirmAppointments && (
-        <section>
+        <section className={styles.section}>
           <h3>🕖 다가오는 약속</h3>
           <ul>
             {confirmAppointments?.data.map((appointment) => (
-              <AppointmentListItem
-                key={appointment.id}
-                id={appointment.id}
-                title={appointment.title}
-                headCount={appointment.headCount}
-                location={appointment.location}
-              />
+              <AppointmentListItem key={appointment.id} {...appointment} />
             ))}
           </ul>
         </section>

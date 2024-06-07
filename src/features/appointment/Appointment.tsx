@@ -2,7 +2,6 @@ import { Label } from "@/components/ui/label";
 import Title from "../../components/Title";
 import styles from "./Appointment.module.scss";
 import { Input } from "@/components/ui/input";
-import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { CopyIcon, MoreVerticalIcon, PersonStandingIcon } from "lucide-react";
 import { AppointmentModel } from "@/types/AppointmentModel";
@@ -22,13 +21,14 @@ import {
 } from "@/components/ui/drawer";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { stripHtml } from "@/lib/utils";
+import { prettyDate, stripHtml } from "@/lib/utils";
 import request from "@/api/request";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useMeQuery } from "@/hooks/useMeQuery";
 import { Recommendation } from "./Recommendation";
+import { NextButton } from "../new-appointment/components/NextButton";
 
 export function Appointment() {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export function Appointment() {
   const { appointmentId } = useParams();
   console.log(appointmentId);
 
-  const { data: appointment } = useSuspenseQuery({
+  const { data: appointment, refetch } = useSuspenseQuery({
     queryKey: ["appointment", appointmentId],
     queryFn: async () => {
       const response = await request.get<AppointmentModel>(
@@ -49,6 +49,7 @@ export function Appointment() {
   });
 
   const isMine = me.id === appointment.organizer_id;
+  const canEdit = isMine && appointment.status === "DRAFT";
 
   const [searchParams] = useSearchParams();
   const isNew = searchParams.get("new"); // test
@@ -73,7 +74,7 @@ export function Appointment() {
   });
 
   const edit = (id?: string) => () => {
-    if (!isMine) {
+    if (!canEdit) {
       return;
     }
 
@@ -90,8 +91,6 @@ export function Appointment() {
   };
 
   const url = `${window.location.origin}/appointments/${appointmentId}`;
-
-  console.log(isMine);
 
   return (
     <>
@@ -112,7 +111,9 @@ export function Appointment() {
                   >
                     공유
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={edit()}>편집</DropdownMenuItem>
+                  {canEdit && (
+                    <DropdownMenuItem onClick={edit()}>편집</DropdownMenuItem>
+                  )}
                   <DropdownMenuItem
                     className="text-red-500"
                     onClick={() => {
@@ -160,7 +161,7 @@ export function Appointment() {
               readOnly
               value={stripHtml(appointment.location?.title ?? "")}
               onClick={() => {
-                if (!isMine) {
+                if (!canEdit) {
                   return;
                 }
                 navigate(`/appointments/${appointmentId}/edit/location`, {
@@ -177,15 +178,27 @@ export function Appointment() {
             </div>
           </div>
 
-          <div className={styles.field}>
-            <Label htmlFor="">마감일</Label>
-            <Input
-              className="w-full"
-              disabled
-              type="date"
-              value={format(new Date(appointment.deadline), "yyyy-MM-dd")}
-            />
-          </div>
+          {appointment.status === "DRAFT" && (
+            <div className={styles.field}>
+              <Label htmlFor="">마감일</Label>
+              <Input
+                className="w-full"
+                readOnly
+                value={prettyDate(new Date(appointment.deadline))}
+              />
+            </div>
+          )}
+
+          {appointment.status === "CONFIRM" && appointment.confirmTime && (
+            <div className={styles.field}>
+              <Label htmlFor="">시간</Label>
+              <Input
+                className="w-full"
+                readOnly
+                value={prettyDate(new Date(appointment.confirmTime))}
+              />
+            </div>
+          )}
 
           <div className={styles.field}>
             <Label htmlFor="">
@@ -232,7 +245,20 @@ export function Appointment() {
       </Drawer>
 
       {isMine && appointment.status === "DRAFT" && (
-        <Recommendation appointmentId={appointmentId} />
+        <Recommendation
+          appointmentId={appointmentId}
+          onConfirm={() => {
+            refetch();
+          }}
+        />
+      )}
+
+      {appointment.status === "CONFIRM" && (
+        <NextButton>
+          <div className="self-stretch bg-green-500 h-12 rounded-md px-8 font-bold flex items-center justify-center text-white">
+            확정된 약속입니다.
+          </div>
+        </NextButton>
       )}
     </>
   );

@@ -1,30 +1,62 @@
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { NextButton } from "../new-appointment/components/NextButton";
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
-import { AppointmentModel } from "@/types/AppointmentModel";
+import { cn, prettyDate } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import request from "@/api/request";
+// import { AppointmentModel } from "@/types/AppointmentModel";
+// import request from "@/api/request";
 
-export function Recommendation({ appointmentId }: { appointmentId?: string }) {
-  const { data } = useQuery({
+function useRecommendationQuery(appointmentId?: string) {
+  return useQuery({
     queryKey: ["recommendation", appointmentId, "recommend"],
-    queryFn: async () => {
-      const response = await request.get<AppointmentModel>(
-        `/appointment/${appointmentId}/recommend`
-      );
-      return response.data;
-    },
     enabled: !!appointmentId,
+    queryFn: async () => {
+      return Promise.resolve([
+        "2024-06-13T10:00:00.05Z",
+        "2024-06-13T11:00:00.05Z",
+        "2024-06-13T12:00:00.05Z",
+      ]);
+    },
+    // queryFn: async () => {
+    //   const response = await request.get<AppointmentModel>(
+    //     `/appointment/${appointmentId}/recommend`
+    //   );
+    //   return response.data;
+    // },
+  });
+}
+
+export function Recommendation({
+  appointmentId,
+  onConfirm,
+}: {
+  appointmentId?: string;
+  onConfirm?: () => void;
+}) {
+  const { data } = useRecommendationQuery(appointmentId);
+  console.log(data);
+  const { mutate } = useMutation({
+    mutationFn: async (date: string) => {
+      return request.post(`/appointment/${appointmentId}/confirm`, {
+        time: date,
+      });
+    },
+    onSuccess: () => {
+      onConfirm?.();
+    },
   });
 
-  console.log(data);
+  const handleClickDatetime = (date: string) => () => {
+    mutate(date);
+  };
 
   if (!appointmentId) {
     return null;
@@ -50,7 +82,20 @@ export function Recommendation({ appointmentId }: { appointmentId?: string }) {
           <DrawerTitle>아래 시간에 만나는 것을 추천드려요</DrawerTitle>
         </DrawerHeader>
 
-        <Button variant="outline">1</Button>
+        <ul className="flex flex-col gap-2 p-3">
+          {/* <Button variant="outline">1</Button> */}
+          {data?.map((time) => (
+            <DrawerClose
+              className={buttonVariants({
+                variant: "outline",
+                size: "lg",
+              })}
+              onClick={handleClickDatetime(time)}
+            >
+              {prettyDate(new Date(time))}
+            </DrawerClose>
+          ))}
+        </ul>
       </DrawerContent>
     </Drawer>
   );

@@ -2,16 +2,17 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AppointmentModel } from "@/types/AppointmentModel";
 import { Badge } from "@/components/ui/badge";
-import { stripHtml } from "@/lib/utils";
+import { prettyDate, stripHtml } from "@/lib/utils";
 
 export function AppointmentListItem({
   id,
   title,
   headCount,
+  confirmTime,
   location,
 }: {
   headCount: number;
-} & Pick<AppointmentModel, "id" | "title" | "location">) {
+} & Pick<AppointmentModel, "id" | "title" | "location" | "confirmTime">) {
   return (
     <Link to={`/appointments/${id}`}>
       <Card>
@@ -22,7 +23,13 @@ export function AppointmentListItem({
             {headCount > 1 && <Badge variant="outline">{headCount}명</Badge>}
           </CardTitle>
         </CardHeader>
-        <CardContent>{stripHtml(location?.title ?? "")}</CardContent>
+
+        {(location?.title || confirmTime) && (
+          <CardContent className="flex flex-col gap-1">
+            {stripHtml(location?.title ?? "")}
+            {confirmTime && <p>{prettyDate(new Date(confirmTime))}</p>}
+          </CardContent>
+        )}
       </Card>
     </Link>
   );

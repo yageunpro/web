@@ -105,7 +105,7 @@ export function EditMapView({
       </div>
 
       <NextButton>
-        <Button onClick={onSubmit} className={NextButtonStyle}>
+        <Button size="lg" className="self-stretch font-bold" onClick={onSubmit}>
           완료
         </Button>
       </NextButton>

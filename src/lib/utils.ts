@@ -15,3 +15,13 @@ export function escapeHtml(html: string) {
 export function stripHtml(html: string) {
   return html.replace(/<[^>]*>?/gm, "");
 }
+
+export function prettyDate(date: Date) {
+  return new Intl.DateTimeFormat("ko-KR", {
+    month: "long",
+    day: "numeric",
+    weekday: "short",
+    hour: "numeric",
+    minute: "numeric",
+  }).format(date);
+}

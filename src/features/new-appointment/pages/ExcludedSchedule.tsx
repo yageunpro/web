@@ -1,6 +1,6 @@
 import { Fragment, useRef } from "react";
 import Title from "../../../components/Title";
-import { NextButton, NextButtonStyle } from "../components/NextButton";
+import { NextButton } from "../components/NextButton";
 import { useSchedule } from "../hooks/useSchedule";
 import { Schedule } from "../../../types/Schedule";
 import { NewSchedule } from "../components/NewSchedule/NewSchedule";
@@ -111,7 +111,15 @@ export function ExcludedSchedule() {
         </ScrollArea>
 
         <NextButton>
-          <Link className={NextButtonStyle} to="/appointments/new/3">
+          <Link
+            className={cn(
+              buttonVariants({
+                size: "lg",
+              }),
+              "self-stretch font-bold"
+            )}
+            to="/appointments/new/3"
+          >
             다음
           </Link>
         </NextButton>

@@ -2,6 +2,7 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   DrawerClose,
   DrawerContent,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
@@ -42,121 +43,124 @@ export function NewSchedule({
   const disabled = rangeError || !title;
 
   return (
-    <DrawerContent className="px-4 pb-4 gap-4">
+    <DrawerContent>
       <DrawerHeader>
         <DrawerTitle>일정 직접 추가</DrawerTitle>
       </DrawerHeader>
 
-      <Input
-        placeholder="어떤 일정인가요?"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      <div className="flex flex-col px-4 py-2 gap-3">
+        <Input
+          placeholder="어떤 일정인가요?"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-      <div className={styles.dateTimeWrapper}>
-        <label id="rangeStart">시작</label>
+        <div className={styles.dateTimeWrapper}>
+          <label id="rangeStart">시작</label>
 
-        <div className={styles.inputs}>
-          <Input
-            type="date"
-            aria-labelledby="rangeStart"
-            className="w-[128px] shrink-0"
-            value={format(startDate, "yyyy-MM-dd")}
-            onChange={(e) => {
-              const date = new Date(e.target.value);
-              handleStartDateTimeChange(
-                new Date(
-                  date.getFullYear(),
-                  date.getMonth(),
-                  date.getDate(),
-                  startDate.getHours(),
-                  startDate.getMinutes()
-                )
-              );
-            }}
-          />
-          <Input
-            type="time"
-            aria-labelledby="rangeStart"
-            className="w-[96px] shrink-0"
-            value={format(startDate, "HH:mm")}
-            onChange={(e) => {
-              const time = e.target.value.split(":");
-              handleStartDateTimeChange(
-                new Date(
-                  startDate.getFullYear(),
-                  startDate.getMonth(),
-                  startDate.getDate(),
-                  parseInt(time[0]),
-                  parseInt(time[1])
-                )
-              );
-            }}
-          />
-        </div>
-      </div>
-
-      <div className={styles.dateTimeWrapper}>
-        <label id="rangeEnd">종료</label>
-
-        <div className={styles.inputs}>
-          <Input
-            type="date"
-            aria-labelledby="rangeEnd"
-            className="w-[128px] shrink-0"
-            value={format(endDate, "yyyy-MM-dd")}
-            onChange={(e) => {
-              const date = new Date(e.target.value);
-              setEndDate(
-                (origin) =>
+          <div className={styles.inputs}>
+            <Input
+              type="date"
+              aria-labelledby="rangeStart"
+              className="w-[128px] shrink-0"
+              value={format(startDate, "yyyy-MM-dd")}
+              onChange={(e) => {
+                const date = new Date(e.target.value);
+                handleStartDateTimeChange(
                   new Date(
                     date.getFullYear(),
                     date.getMonth(),
                     date.getDate(),
-                    origin.getHours(),
-                    origin.getMinutes()
+                    startDate.getHours(),
+                    startDate.getMinutes()
                   )
-              );
-            }}
-          />
-          <Input
-            type="time"
-            aria-labelledby="rangeEnd"
-            className="w-[96px] shrink-0"
-            value={format(endDate, "HH:mm")}
-            onChange={(e) => {
-              const time = e.target.value.split(":");
-              setEndDate(
-                (origin) =>
+                );
+              }}
+            />
+            <Input
+              type="time"
+              aria-labelledby="rangeStart"
+              className="w-[96px] shrink-0"
+              value={format(startDate, "HH:mm")}
+              onChange={(e) => {
+                const time = e.target.value.split(":");
+                handleStartDateTimeChange(
                   new Date(
-                    origin.getFullYear(),
-                    origin.getMonth(),
-                    origin.getDate(),
+                    startDate.getFullYear(),
+                    startDate.getMonth(),
+                    startDate.getDate(),
                     parseInt(time[0]),
                     parseInt(time[1])
                   )
-              );
-            }}
-          />
+                );
+              }}
+            />
+          </div>
+        </div>
+
+        <div className={styles.dateTimeWrapper}>
+          <label id="rangeEnd">종료</label>
+
+          <div className={styles.inputs}>
+            <Input
+              type="date"
+              aria-labelledby="rangeEnd"
+              className="w-[128px] shrink-0"
+              value={format(endDate, "yyyy-MM-dd")}
+              onChange={(e) => {
+                const date = new Date(e.target.value);
+                setEndDate(
+                  (origin) =>
+                    new Date(
+                      date.getFullYear(),
+                      date.getMonth(),
+                      date.getDate(),
+                      origin.getHours(),
+                      origin.getMinutes()
+                    )
+                );
+              }}
+            />
+            <Input
+              type="time"
+              aria-labelledby="rangeEnd"
+              className="w-[96px] shrink-0"
+              value={format(endDate, "HH:mm")}
+              onChange={(e) => {
+                const time = e.target.value.split(":");
+                setEndDate(
+                  (origin) =>
+                    new Date(
+                      origin.getFullYear(),
+                      origin.getMonth(),
+                      origin.getDate(),
+                      parseInt(time[0]),
+                      parseInt(time[1])
+                    )
+                );
+              }}
+            />
+          </div>
         </div>
       </div>
-
-      <DrawerClose
-        className={buttonVariants({
-          size: "lg",
-        })}
-        onClick={() => {
-          reset();
-          onSubmitted?.({
-            title,
-            start: startDate,
-            end: endDate,
-          });
-        }}
-        disabled={disabled}
-      >
-        일정 추가
-      </DrawerClose>
+      <DrawerFooter>
+        <DrawerClose
+          className={buttonVariants({
+            size: "lg",
+          })}
+          onClick={() => {
+            reset();
+            onSubmitted?.({
+              title,
+              start: startDate,
+              end: endDate,
+            });
+          }}
+          disabled={disabled}
+        >
+          일정 추가
+        </DrawerClose>
+      </DrawerFooter>
     </DrawerContent>
   );
 }

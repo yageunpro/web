@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import Title from "../../../../components/Title";
-import { NextButton, NextButtonStyle } from "../../components/NextButton";
+import { NextButton } from "../../components/NextButton";
 import styles from "./WhatEvent.module.scss";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -59,7 +59,12 @@ export function WhatEvent() {
         </div>
 
         <NextButton>
-          <Button disabled={!title} type="submit" className={NextButtonStyle}>
+          <Button
+            size="lg"
+            disabled={!title}
+            type="submit"
+            className="self-stretch font-bold"
+          >
             다음
           </Button>
         </NextButton>
