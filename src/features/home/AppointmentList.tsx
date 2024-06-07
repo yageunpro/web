@@ -1,6 +1,8 @@
 import { AppointmentListItem } from "./AppointmentListItem";
 import { useAppointmentListQuery } from "@/hooks/useAppointmentListQuery";
 
+import styles from "./AppointmentList.module.scss";
+
 export function AppointmentList() {
   const { data: draftAppointments } = useAppointmentListQuery("DRAFT");
   const { data: confirmAppointments } = useAppointmentListQuery("CONFIRM");
@@ -14,7 +16,7 @@ export function AppointmentList() {
   return (
     <>
       {hasDraftAppointments && (
-        <section>
+        <section className={styles.section}>
           <h3>😴 약속 정하는 중</h3>
           <ul>
             {draftAppointments?.data?.map((appointment) => (
