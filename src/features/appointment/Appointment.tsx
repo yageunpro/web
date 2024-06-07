@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { CopyIcon, MoreVerticalIcon, PersonStandingIcon } from "lucide-react";
 import { AppointmentModel } from "@/types/AppointmentModel";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,19 +21,25 @@ import {
 } from "@/components/ui/drawer";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { prettyDate, stripHtml } from "@/lib/utils";
+import { cn, prettyDate, stripHtml } from "@/lib/utils";
 import request from "@/api/request";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useMeQuery } from "@/hooks/useMeQuery";
 import { Recommendation } from "./Recommendation";
 import { NextButton } from "../new-appointment/components/NextButton";
+import axios from "axios";
 
 export function Appointment() {
   const navigate = useNavigate();
 
-  const { data: me } = useMeQuery();
+  const { data: me, isSuccess: loggedIn } = useQuery({
+    queryKey: ["user", "me"],
+    queryFn: async () => {
+      const response = await axios.get("/api/user/me");
+      return response.data;
+    },
+  });
 
   const { appointmentId } = useParams();
   console.log(appointmentId);
@@ -48,7 +54,7 @@ export function Appointment() {
     },
   });
 
-  const isMine = me.id === appointment.organizer_id;
+  const isMine = me?.id === appointment.organizer_id;
   const canEdit = isMine && appointment.status === "DRAFT";
 
   const [searchParams] = useSearchParams();
@@ -89,6 +95,12 @@ export function Appointment() {
       replace: true,
     });
   };
+
+  const { mutate: join } = useMutation({
+    mutationFn: async () => {
+      return axios.post(`/appointment/${appointmentId}/join`);
+    },
+  });
 
   const url = `${window.location.origin}/appointments/${appointmentId}`;
 
@@ -251,6 +263,29 @@ export function Appointment() {
             refetch();
           }}
         />
+      )}
+
+      {!isMine && appointment.status === "DRAFT" && (
+        <NextButton>
+          <Button
+            className={cn(
+              buttonVariants({
+                size: "lg",
+              }),
+              "self-stretch font-bold"
+            )}
+            onClick={() => {
+              if (loggedIn) {
+                join();
+                refetch();
+              } else {
+                navigate("./join");
+              }
+            }}
+          >
+            약속 참여하기
+          </Button>
+        </NextButton>
       )}
 
       {appointment.status === "CONFIRM" && (

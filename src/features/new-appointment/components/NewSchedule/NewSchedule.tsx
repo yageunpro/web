@@ -80,7 +80,7 @@ export function NewSchedule({
             <Input
               type="time"
               aria-labelledby="rangeStart"
-              className="w-[96px] shrink-0"
+              className="w-[128px] shrink-0"
               value={format(startDate, "HH:mm")}
               onChange={(e) => {
                 const time = e.target.value.split(":");
@@ -124,7 +124,7 @@ export function NewSchedule({
             <Input
               type="time"
               aria-labelledby="rangeEnd"
-              className="w-[96px] shrink-0"
+              className="w-[128px] shrink-0"
               value={format(endDate, "HH:mm")}
               onChange={(e) => {
                 const time = e.target.value.split(":");

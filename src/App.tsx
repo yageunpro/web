@@ -13,6 +13,9 @@ import {
 import { EditCategories } from "@/features/appointment/EditCategories";
 import { EditAppointment } from "./features/appointment/EditAppointment";
 import { Toaster } from "sonner";
+import { JoinAppointment } from "./features/appointment-join/JoinAppointment";
+import { TakerName } from "./features/appointment-join/TakerName";
+import { TakerSchedule } from "./features/appointment-join/TakerSchedule";
 
 export function App() {
   return (
@@ -43,6 +46,20 @@ export function App() {
           path="/appointments/:appointmentId/edit"
           element={<EditAppointment />}
         />
+
+        <Route
+          path="appointments/:appointmentId/join/annonymous/schedule"
+          element={<TakerSchedule />}
+        />
+        <Route
+          path="appointments/:appointmentId/join/annonymous/name"
+          element={<TakerName />}
+        />
+        <Route
+          path="appointments/:appointmentId/join"
+          element={<JoinAppointment />}
+        />
+
         <Route path="/appointments/:appointmentId" element={<Appointment />} />
       </Routes>
 
