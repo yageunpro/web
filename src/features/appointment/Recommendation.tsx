@@ -11,26 +11,17 @@ import { cn, prettyDate } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import request from "@/api/request";
-// import { AppointmentModel } from "@/types/AppointmentModel";
-// import request from "@/api/request";
 
 function useRecommendationQuery(appointmentId?: string) {
   return useQuery({
     queryKey: ["recommendation", appointmentId, "recommend"],
     enabled: !!appointmentId,
     queryFn: async () => {
-      return Promise.resolve([
-        "2024-06-13T10:00:00.05Z",
-        "2024-06-13T11:00:00.05Z",
-        "2024-06-13T12:00:00.05Z",
-      ]);
+      const response = await request.get<string[]>(
+        `/appointment/${appointmentId}/recommend`
+      );
+      return response.data;
     },
-    // queryFn: async () => {
-    //   const response = await request.get<AppointmentModel>(
-    //     `/appointment/${appointmentId}/recommend`
-    //   );
-    //   return response.data;
-    // },
   });
 }
 
