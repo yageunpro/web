@@ -13,10 +13,6 @@ export function useSchedule({ start, end }: { start: string; end: string }) {
       },
     ],
     queryFn: async () => {
-      // const response = await fetch(
-      //   `/api/calendar/schedule/list?${queryString}`
-      // );
-      // return response.json();
       const response = await request.get(`/calendar/schedule/list`, {
         params: {
           start: start,
