@@ -17,6 +17,7 @@ export function useSchedule({ start, end }: { start: string; end: string }) {
         params: {
           start: start,
           end: end,
+          limit: 30,
         },
       });
 
