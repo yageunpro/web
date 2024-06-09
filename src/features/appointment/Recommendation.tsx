@@ -7,7 +7,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { NextButton } from "../new-appointment/components/NextButton";
-import { cn, prettyDate } from "@/lib/utils";
+import { cn, prettyDate, unique } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import request from "@/api/request";
@@ -53,6 +53,8 @@ export function Recommendation({
     return null;
   }
 
+  const options = unique(data || []);
+
   return (
     <Drawer>
       <NextButton>
@@ -75,7 +77,7 @@ export function Recommendation({
 
         <ul className="flex flex-col gap-2 p-3">
           {/* <Button variant="outline">1</Button> */}
-          {data?.map((time) => (
+          {options.map((time) => (
             <DrawerClose
               className={buttonVariants({
                 variant: "outline",

@@ -25,3 +25,7 @@ export function prettyDate(date: Date) {
     minute: "numeric",
   }).format(date);
 }
+
+export function unique<T>(arr: T[]) {
+  return Array.from(new Set(arr));
+}
