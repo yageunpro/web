@@ -104,6 +104,10 @@ export function Appointment() {
 
   const url = `${window.location.origin}/appointments/${appointmentId}`;
 
+  const participated = appointment.participantList.some(
+    (participant) => participant.id === me?.id
+  );
+
   return (
     <>
       <Drawer open={openDrawer} onOpenChange={(open) => setOpenDrawer(open)}>
@@ -266,7 +270,7 @@ export function Appointment() {
         />
       )}
 
-      {!isMine && appointment.status === "DRAFT" && (
+      {!participated && !isMine && appointment.status === "DRAFT" && (
         <NextButton>
           <Button
             className={cn(
