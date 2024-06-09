@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import Title from "../../../components/Title";
-import {
-  NextButton,
-  NextButtonStyle,
-} from "../../new-appointment/components/NextButton";
+import { NextButton } from "../../new-appointment/components/NextButton";
 import { MapView } from "../../new-appointment/map";
 
 import styles from "./EditMapView.module.scss";
