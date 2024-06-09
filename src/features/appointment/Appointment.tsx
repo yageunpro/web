@@ -98,7 +98,7 @@ export function Appointment() {
 
   const { mutate: join } = useMutation({
     mutationFn: async () => {
-      return axios.post(`/appointment/${appointmentId}/join`);
+      return request.post(`/appointment/${appointmentId}/join`);
     },
   });
 
